@@ -10,6 +10,7 @@ var gl;
 function init() {
   canvas = document.getElementById('canvas');
   gl = initWebGL(canvas);
+  initScene();
 }
 
 window.onload = init;
