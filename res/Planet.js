@@ -24,9 +24,16 @@ function Planet(name, radius, orbitRadius) {
     this.orbitRadius = orbitRadius;
   }
 
+  // This function draws the planets
   this.draw = function() {
     // TODO
-    console.log('draw planet');
+    console.log('draw '+ this.name);
+  }
+
+  // This function updates the positions of the planet
+  this.update = function() {
+    // TODO
+    console.log('update '+ this.name);
   }
 
   return this;
