@@ -10,6 +10,18 @@
  */
 function initWebGL(canvas) {
 
+  var devicePixelRatio = window.devicePixelRatio || 1;
+  var width = canvas.clientWidth;
+  var height = canvas.clientHeight;
+
+  // set the display size of the canvas.
+  canvas.style.width  = width  + "px";
+  canvas.style.height = height + "px";
+
+  // set the size of the drawingBuffer
+  canvas.width  = width  * devicePixelRatio;
+  canvas.height = height * devicePixelRatio;
+
   glContext = canvas.getContext("webgl") ||
               canvas.getContext("experimental-webgl");
 
