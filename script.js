@@ -4,8 +4,6 @@
  * @version 1.0
  */
 
-var gl;
-
 function init() {
   canvas = document.getElementById('canvas');
   gl = initWebGL(canvas);
