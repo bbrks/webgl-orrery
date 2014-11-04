@@ -11,7 +11,7 @@
 function initWebGL(canvas) {
 
   var devicePixelRatio = window.devicePixelRatio || 1;
-  var width = canvas.clientWidth;
+  var width  = canvas.clientWidth;
   var height = canvas.clientHeight;
 
   // set the display size of the canvas.
@@ -24,6 +24,9 @@ function initWebGL(canvas) {
 
   glContext = canvas.getContext("webgl") ||
               canvas.getContext("experimental-webgl");
+
+  glContext.viewportWidth  = canvas.width;
+  glContext.viewportHeight = canvas.height;
 
   if (!glContext) {
     alert("Unable to initialise WebGL. Your browser may not support it.");
