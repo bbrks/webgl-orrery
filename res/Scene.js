@@ -10,6 +10,8 @@ function initScene() {
 
   objects.push(new Planet('Sun', 1, 0));
 
+  initShaders();
+
   update();
   draw();
 
@@ -34,13 +36,16 @@ function update() {
  */
 function draw() {
 
+  gl.clearColor(0.0, 0.0, 0.0, 1.0);
+  gl.viewport(0.0, 0.0, canvas.width, canvas.height);
+  gl.clear(gl.COLOR_BUFFER_BIT);
+
   // Loop through objects in scene and run draw function
   for (var i = objects.length - 1; i >= 0; i--) {
     objects[i].draw();
   };
 
-  gl.clearColor(0.0, 0.0, 0.0, 1.0);
-  gl.clear(gl.COLOR_BUFFER_BIT);
+  gl.flush();
 
   // Request animation frame from browser
   // (typical target 16.667ms/frame)

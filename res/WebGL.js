@@ -22,8 +22,8 @@ function initWebGL(canvas) {
   canvas.width  = width  * devicePixelRatio;
   canvas.height = height * devicePixelRatio;
 
-  glContext = canvas.getContext("webgl") ||
-              canvas.getContext("experimental-webgl");
+  glContext = canvas.getContext("webgl", {antialias: true}) ||
+              canvas.getContext("experimental-webgl", {antialias: true});
 
   glContext.viewportWidth  = canvas.width;
   glContext.viewportHeight = canvas.height;

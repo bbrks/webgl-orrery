@@ -26,8 +26,28 @@ function Planet(name, radius, orbitRadius) {
 
   // This function draws the planets
   this.draw = function() {
-    // TODO
-    // console.log('draw '+ this.name);
+    var triangle_vertex=[
+      -1, -1, //first summit -> bottom left of the viewport
+       1, -1, //bottom right of the viewport
+       1,  1,  //top right of the viewport
+    ];
+
+    var TRIANGLE_VERTEX = gl.createBuffer ();
+    gl.bindBuffer(gl.ARRAY_BUFFER, TRIANGLE_VERTEX);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(triangle_vertex), gl.STATIC_DRAW);
+
+    var triangle_faces = [0, 1, 2];
+    var TRIANGLE_FACES = gl.createBuffer();
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, TRIANGLE_FACES);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,
+                  new Uint16Array(triangle_faces),
+      gl.STATIC_DRAW);
+
+    gl.vertexAttribPointer(_position, 2, gl.FLOAT, false, 4*2, 0) ;
+    gl.bindBuffer(gl.ARRAY_BUFFER, TRIANGLE_VERTEX);
+
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, TRIANGLE_FACES);
+    gl.drawElements(gl.TRIANGLES, 3, gl.UNSIGNED_SHORT, 0);
   }
 
   // This function updates the positions of the planet
