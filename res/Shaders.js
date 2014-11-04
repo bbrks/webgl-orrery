@@ -1,4 +1,5 @@
 var _position;
+var _colour;
 
 function initShaders() {
   var fragmentShader = getShader(gl, "shader-fs");
@@ -9,8 +10,13 @@ function initShaders() {
   gl.attachShader(shaderProgram, vertexShader);
 
   gl.linkProgram(shaderProgram);
+
   _position = gl.getAttribLocation(shaderProgram, "position");
+  _colour = gl.getAttribLocation(shaderProgram, "colour");
+
   gl.enableVertexAttribArray(_position);
+  gl.enableVertexAttribArray(_colour);
+
   gl.useProgram(shaderProgram);
 }
 

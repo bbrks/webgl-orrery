@@ -17,15 +17,21 @@
   <script id="shader-fs" type="x-shader/x-fragment">
     precision mediump float;
 
+    varying vec3 vColour;
+
     void main(void) {
-      gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+      gl_FragColor = vec4(vColour, 1.0);
     }
   </script>
   <script id="shader-vs" type="x-shader/x-vertex">
     attribute vec2 position;
+    attribute vec3 colour;
+
+    varying vec3 vColour;
 
     void main(void) {
       gl_Position = vec4(position, 0.0, 1.0);
+      vColour = colour;
     }
   </script>
 
