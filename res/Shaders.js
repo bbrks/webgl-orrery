@@ -1,3 +1,4 @@
+var _Pmatrix;
 var _position;
 var _colour;
 
@@ -11,6 +12,7 @@ function initShaders() {
 
   gl.linkProgram(shaderProgram);
 
+  _Pmatrix = gl.getUniformLocation(shaderProgram, "Pmatrix");
   _position = gl.getAttribLocation(shaderProgram, "position");
   _colour = gl.getAttribLocation(shaderProgram, "colour");
 

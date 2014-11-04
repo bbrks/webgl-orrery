@@ -8,6 +8,7 @@
 
   <script type="text/javascript" src="script.js"></script>
   <script type="text/javascript" src="lib/gl-matrix.js"></script>
+  <script type="text/javascript" src="lib/WebGLUtils.js"></script>
   <script type="text/javascript" src="res/WebGL.js"></script>
   <script type="text/javascript" src="res/Scene.js"></script>
   <script type="text/javascript" src="res/Settings.js"></script>
@@ -24,13 +25,14 @@
     }
   </script>
   <script id="shader-vs" type="x-shader/x-vertex">
-    attribute vec2 position;
+    attribute vec3 position;
+    uniform mat4 Pmatrix;
     attribute vec3 colour;
 
     varying vec3 vColour;
 
     void main(void) {
-      gl_Position = vec4(position, 0.0, 1.0);
+      gl_Position = Pmatrix * vec4(position, 1.0);
       vColour = colour;
     }
   </script>

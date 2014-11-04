@@ -26,13 +26,11 @@ function Planet(name, radius, orbitRadius) {
 
   // This function draws the planets
   this.draw = function() {
+    // XYZ /**/ RGB
     var triangle_vertex=[
-      -1, -1, //first summit -> bottom left of the viewport
-       0, 0, 1,
-       1, -1, //bottom right of the viewport
-       1, 1, 0,
-       1,  1,  //top right of the viewport
-       1, 0, 0
+      -1, -1, -5, /**/ 1, 0, 0,
+       1, -1, -5, /**/ 0, 1, 0,
+       1,  1, -5, /**/ 0, 0, 1
     ];
 
     var TRIANGLE_VERTEX = gl.createBuffer ();
@@ -46,8 +44,9 @@ function Planet(name, radius, orbitRadius) {
                   new Uint16Array(triangle_faces),
       gl.STATIC_DRAW);
 
-    gl.vertexAttribPointer(_position, 2, gl.FLOAT, false,4*(2+3),0) ;
-    gl.vertexAttribPointer(_colour, 3, gl.FLOAT, false,4*(2+3),2*4) ;
+    gl.uniformMatrix4fv(_Pmatrix, false, projMatrix);
+    gl.vertexAttribPointer(_position, 3, gl.FLOAT, false,4*(3+3),0);
+    gl.vertexAttribPointer(_colour, 3, gl.FLOAT, false,4*(3+3),3*4);
     gl.bindBuffer(gl.ARRAY_BUFFER, TRIANGLE_VERTEX);
 
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, TRIANGLE_FACES);

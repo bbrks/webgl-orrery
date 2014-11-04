@@ -8,6 +8,13 @@ var objects = new Array();
 
 function initScene() {
 
+  gl.clearColor(0.0, 0.0, 0.0, 1.0);
+  gl.enable(gl.DEPTH_TEST);
+  gl.depthFunc(gl.LEQUAL);
+  gl.clearDepth(1.0);
+
+  projMatrix = WebGLUtils.get_projection(40, canvas.width/canvas.height, 1, 100);
+
   objects.push(new Planet('Sun', 1, 0));
 
   initShaders();
@@ -36,9 +43,8 @@ function update() {
  */
 function draw() {
 
-  gl.clearColor(0.0, 0.0, 0.0, 1.0);
   gl.viewport(0.0, 0.0, canvas.width, canvas.height);
-  gl.clear(gl.COLOR_BUFFER_BIT);
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
   // Loop through objects in scene and run draw function
   for (var i = objects.length - 1; i >= 0; i--) {
