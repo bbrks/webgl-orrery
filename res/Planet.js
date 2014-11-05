@@ -33,16 +33,61 @@ function Planet(name, radius, orbitRadius) {
   this.draw = function() {
     // XYZ /**/ RGB
     var mesh_verts = [
-      -1, -1, 0, /**/ 1, 0, 0,
-       1, -1, 0, /**/ 0, 1, 0,
-       1,  1, 0, /**/ 0, 0, 1,
+      -1, -1, -1,     1, 1, 0,
+       1, -1, -1,     1, 1, 0,
+       1,  1, -1,     1, 1, 0,
+      -1,  1, -1,     1, 1, 0,
+
+      -1, -1,  1,     0, 0, 1,
+       1, -1,  1,     0, 0, 1,
+       1,  1,  1,     0, 0, 1,
+      -1,  1,  1,     0, 0, 1,
+
+      -1, -1, -1,     0, 1, 1,
+      -1,  1, -1,     0, 1, 1,
+      -1,  1,  1,     0, 1, 1,
+      -1, -1,  1,     0, 1, 1,
+
+       1, -1, -1,     1, 0, 0,
+       1,  1, -1,     1, 0, 0,
+       1,  1,  1,     1, 0, 0,
+       1, -1,  1,     1, 0, 0,
+
+      -1, -1, -1,     1, 0, 1,
+      -1, -1,  1,     1, 0, 1,
+       1, -1,  1,     1, 0, 1,
+       1, -1, -1,     1, 0, 1,
+
+      -1,  1, -1,     0, 1, 0,
+      -1,  1,  1,     0, 1, 0,
+       1,  1,  1,     0, 1, 0,
+       1,  1, -1,     0, 1, 0,
     ];
 
     var MESH_VERTEX = gl.createBuffer ();
     gl.bindBuffer(gl.ARRAY_BUFFER, MESH_VERTEX);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(mesh_verts), gl.STATIC_DRAW);
 
-    var mesh_faces = [0, 1, 2];
+    // 2 tris per square face
+    var mesh_faces = [
+      0,1,2,
+      0,2,3,
+
+      4,5,6,
+      4,6,7,
+
+      8,9,10,
+      8,10,11,
+
+      12,13,14,
+      12,14,15,
+
+      16,17,18,
+      16,18,19,
+
+      20,21,22,
+      20,22,23,
+    ];
     var MESH_FACES = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, MESH_FACES);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,
@@ -57,15 +102,15 @@ function Planet(name, radius, orbitRadius) {
 
     gl.bindBuffer(gl.ARRAY_BUFFER, MESH_VERTEX);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, MESH_FACES);
-    gl.drawElements(gl.TRIANGLES, 3, gl.UNSIGNED_SHORT, 0);
+    gl.drawElements(gl.TRIANGLES, 6*2*3, gl.UNSIGNED_SHORT, 0);
   }
 
   // This function updates the positions of the planet
   this.update = function() {
-    var dAngle = 0.1;
-    WebGLUtils.rotateX(moveMatrix, dAngle);
-    WebGLUtils.rotateY(moveMatrix, dAngle);
-    WebGLUtils.rotateZ(moveMatrix, dAngle);
+    var dAngle = 0.01;
+    WebGLUtils.rotateX(moveMatrix, dAngle*1);
+    WebGLUtils.rotateY(moveMatrix, dAngle*2);
+    WebGLUtils.rotateZ(moveMatrix, dAngle*3);
   }
 
   return this;
