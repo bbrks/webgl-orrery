@@ -28,6 +28,8 @@ function Planet(name, radius, orbitRadius) {
   moveMatrix = WebGLUtils.get_I4();
   viewMatrix = WebGLUtils.get_I4();
   WebGLUtils.translateZ(viewMatrix, -5);
+  var theta = 0,
+      phi   = 0;
 
   // This function draws the planets
   this.draw = function() {
@@ -107,10 +109,9 @@ function Planet(name, radius, orbitRadius) {
 
   // This function updates the positions of the planet
   this.update = function() {
-    var dAngle = 0.01;
-    WebGLUtils.rotateX(moveMatrix, dAngle*1);
-    WebGLUtils.rotateY(moveMatrix, dAngle*2);
-    WebGLUtils.rotateZ(moveMatrix, dAngle*3);
+    WebGLUtils.set_I4(moveMatrix);
+    WebGLUtils.rotateY(moveMatrix, theta);
+    WebGLUtils.rotateX(moveMatrix, phi);
   }
 
   return this;
