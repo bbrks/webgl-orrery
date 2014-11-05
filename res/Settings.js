@@ -14,3 +14,4 @@ settings['drawOrbits']   = true;
 settings['drawTextures'] = true;
 settings['drawLighting'] = true;
 settings['simSpeed']     = 1.0;
+settings['fov']          = 75;
