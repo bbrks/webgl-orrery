@@ -24,39 +24,48 @@ function Planet(name, radius, orbitRadius) {
     this.orbitRadius = orbitRadius;
   }
 
+  projMatrix = WebGLUtils.get_projection(40, canvas.width/canvas.height, 1, 100);
+  moveMatrix = WebGLUtils.get_I4();
+  viewMatrix = WebGLUtils.get_I4();
+  WebGLUtils.translateZ(viewMatrix, -5);
+
   // This function draws the planets
   this.draw = function() {
     // XYZ /**/ RGB
-    var triangle_vertex=[
-      -1, -1, -5, /**/ 1, 0, 0,
-       1, -1, -5, /**/ 0, 1, 0,
-       1,  1, -5, /**/ 0, 0, 1
+    var mesh_verts = [
+      -1, -1, 0, /**/ 1, 0, 0,
+       1, -1, 0, /**/ 0, 1, 0,
+       1,  1, 0, /**/ 0, 0, 1,
     ];
 
-    var TRIANGLE_VERTEX = gl.createBuffer ();
-    gl.bindBuffer(gl.ARRAY_BUFFER, TRIANGLE_VERTEX);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(triangle_vertex), gl.STATIC_DRAW);
+    var MESH_VERTEX = gl.createBuffer ();
+    gl.bindBuffer(gl.ARRAY_BUFFER, MESH_VERTEX);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(mesh_verts), gl.STATIC_DRAW);
 
-    var triangle_faces = [0, 1, 2];
-    var TRIANGLE_FACES = gl.createBuffer();
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, TRIANGLE_FACES);
+    var mesh_faces = [0, 1, 2];
+    var MESH_FACES = gl.createBuffer();
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, MESH_FACES);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,
-                  new Uint16Array(triangle_faces),
+                  new Uint16Array(mesh_faces),
       gl.STATIC_DRAW);
 
     gl.uniformMatrix4fv(_Pmatrix, false, projMatrix);
-    gl.vertexAttribPointer(_position, 3, gl.FLOAT, false,4*(3+3),0);
-    gl.vertexAttribPointer(_colour, 3, gl.FLOAT, false,4*(3+3),3*4);
-    gl.bindBuffer(gl.ARRAY_BUFFER, TRIANGLE_VERTEX);
+    gl.uniformMatrix4fv(_Mmatrix, false, moveMatrix);
+    gl.uniformMatrix4fv(_Vmatrix, false, viewMatrix);
+    gl.vertexAttribPointer(_position, 3, gl.FLOAT, false, 4*(3+3),0);
+    gl.vertexAttribPointer(_colour, 3, gl.FLOAT, false, 4*(3+3),3*4);
 
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, TRIANGLE_FACES);
+    gl.bindBuffer(gl.ARRAY_BUFFER, MESH_VERTEX);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, MESH_FACES);
     gl.drawElements(gl.TRIANGLES, 3, gl.UNSIGNED_SHORT, 0);
   }
 
   // This function updates the positions of the planet
   this.update = function() {
-    // TODO
-    // console.log('update '+ this.name);
+    var dAngle = 0.1;
+    WebGLUtils.rotateX(moveMatrix, dAngle);
+    WebGLUtils.rotateY(moveMatrix, dAngle);
+    WebGLUtils.rotateZ(moveMatrix, dAngle);
   }
 
   return this;

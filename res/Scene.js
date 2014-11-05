@@ -13,8 +13,6 @@ function initScene() {
   gl.depthFunc(gl.LEQUAL);
   gl.clearDepth(1.0);
 
-  projMatrix = WebGLUtils.get_projection(40, canvas.width/canvas.height, 1, 100);
-
   objects.push(new Planet('Sun', 1, 0));
 
   initShaders();

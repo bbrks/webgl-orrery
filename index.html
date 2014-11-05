@@ -27,12 +27,14 @@
   <script id="shader-vs" type="x-shader/x-vertex">
     attribute vec3 position;
     uniform mat4 Pmatrix;
+    uniform mat4 Mmatrix;
+    uniform mat4 Vmatrix;
     attribute vec3 colour;
 
     varying vec3 vColour;
 
     void main(void) {
-      gl_Position = Pmatrix * vec4(position, 1.0);
+      gl_Position = Pmatrix * Vmatrix * Mmatrix * vec4(position, 1.0);
       vColour = colour;
     }
   </script>
