@@ -8,6 +8,12 @@ function init() {
   canvas = document.getElementById('canvas');
   gl = initWebGL(canvas);
   initScene();
+
+  canvas.addEventListener("mousedown", mouseDown, false);
+  canvas.addEventListener("mouseup", mouseUp, false);
+  canvas.addEventListener("mouseout", mouseUp, false);
+  canvas.addEventListener("mousemove", mouseMove, false);
+
 }
 
 window.onload = init;

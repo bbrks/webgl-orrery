@@ -24,12 +24,7 @@ function Planet(name, radius, orbitRadius) {
     this.orbitRadius = orbitRadius;
   }
 
-  projMatrix = WebGLUtils.get_projection(40, canvas.width/canvas.height, 1, 100);
   moveMatrix = WebGLUtils.get_I4();
-  viewMatrix = WebGLUtils.get_I4();
-  WebGLUtils.translateZ(viewMatrix, -5);
-  var theta = 0,
-      phi   = 0;
 
   // This function draws the planets
   this.draw = function() {

@@ -8,6 +8,12 @@ var objects = new Array();
 
 function initScene() {
 
+  projMatrix = WebGLUtils.get_projection(40, canvas.width/canvas.height, 1, 100);
+  viewMatrix = WebGLUtils.get_I4();
+  WebGLUtils.translateZ(viewMatrix, -5);
+  theta = 0,
+  phi   = 0;
+
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
   gl.enable(gl.DEPTH_TEST);
   gl.depthFunc(gl.LEQUAL);
