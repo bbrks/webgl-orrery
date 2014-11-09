@@ -8,7 +8,7 @@ var objects = new Array();
 
 function initScene() {
 
-  projMatrix = WebGLUtils.get_projection(settings['fov'], canvas.width/canvas.height, 1, 100);
+  projMatrix = WebGLUtils.get_projection(settings['fov'], canvas.width/canvas.height, 0.01, 10000);
   viewMatrix = WebGLUtils.get_I4();
   WebGLUtils.translateZ(viewMatrix, -5);
   theta = 0,
