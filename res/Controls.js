@@ -21,3 +21,8 @@ var mouseMove = function(e) {
   old_x = e.pageX, old_y = e.pageY;
   e.preventDefault();
 };
+
+var mouseScroll = function(e) {
+  settings['zoom'] += e.wheelDeltaY*0.001;
+  e.preventDefault();
+}

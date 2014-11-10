@@ -13,6 +13,7 @@ function init() {
   canvas.addEventListener("mouseup", mouseUp, false);
   canvas.addEventListener("mouseout", mouseUp, false);
   canvas.addEventListener("mousemove", mouseMove, false);
+  canvas.addEventListener("mousewheel", mouseScroll, false);
 
 }
 
