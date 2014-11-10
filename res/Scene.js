@@ -21,19 +21,19 @@ function initScene() {
 
   // Semi-accurate data taken from http://en.wikipedia.org/wiki/List_of_gravitationally_rounded_objects_of_the_Solar_System#Planets
   // Spin speed, Axial Tilt, Orbit radius, Orbit speed, Orbit inclination
-  // objects.push(new Planet(   0.000,   0.00,   0.00,   0.000, 0.00));
-  // objects.push(new Planet(  58.640,   0.00,   3.87,  47.873, 7.00));
-  // objects.push(new Planet(-243.018, 177.30,   7.23,  35.021, 3.39));
-  // objects.push(new Planet(   0.997,  23.44,  10.00,  29.786, 0.00));
-  // objects.push(new Planet(   1.026,  25.19,  15.24,  24.131, 1.85));
-  // objects.push(new Planet(   0.414,   3.12,  52.03,  13.070, 1.31));
-  // objects.push(new Planet(   0.444,  26.73,  95.37,   9.672, 2.48));
-  // objects.push(new Planet(  -0.718,  97.86, 191.91,   6.835, 0.76));
-  // objects.push(new Planet(   0.671,  29.58, 300.69,   5.478, 1.77));
+  objects.push(new Planet(   0.000,   0.00,   0.00,   0.000, 0.00));
+  objects.push(new Planet(  58.640,   0.00,   3.87,  47.873, 7.00));
+  objects.push(new Planet(-243.018, 177.30,   7.23,  35.021, 3.39));
+  objects.push(new Planet(   0.997,  23.44,  10.00,  29.786, 0.00));
+  objects.push(new Planet(   1.026,  25.19,  15.24,  24.131, 1.85));
+  objects.push(new Planet(   0.414,   3.12,  52.03,  13.070, 1.31));
+  objects.push(new Planet(   0.444,  26.73,  95.37,   9.672, 2.48));
+  objects.push(new Planet(  -0.718,  97.86, 191.91,   6.835, 0.76));
+  objects.push(new Planet(   0.671,  29.58, 300.69,   5.478, 1.77));
 
-  objects.push(new Planet(0, 0, 0, 0, 0)); // Sun
-  objects.push(new Planet(1, 20, 10, 1, 0)); // Earth
-  objects.push(new Moon(objects[1]));
+  // objects.push(new Planet(0, 0, 0, 0, 0)); // Sun
+  // objects.push(new Planet(1, 20, 10, 1, 0)); // Earth
+  // objects.push(new Moon(objects[1]));
 
   initShaders();
 

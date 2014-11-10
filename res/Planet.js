@@ -8,10 +8,10 @@ function Planet(spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitInclination)
 
   var moveMatrix;
 
-  this.spinSpeed = spinSpeed;
+  this.spinSpeed = spinSpeed*0.01;
   this.axialTilt = axialTilt*(Math.PI/180);
   this.orbitRadius = orbitRadius;
-  this.orbitSpeed = orbitSpeed;
+  this.orbitSpeed = orbitSpeed*0.01;
   this.orbitInclination = orbitInclination*(Math.PI/180);
 
   // This function draws the planets
