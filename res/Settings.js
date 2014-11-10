@@ -13,6 +13,5 @@ settings['drawFPS']      = true;
 settings['drawOrbits']   = true;
 settings['drawTextures'] = true;
 settings['drawLighting'] = true;
-settings['simSpeed']     = 1.0;
 settings['fov']          = 1; // Field of view (radians)
-settings['zoom']         = -10; // Translate Z of viewMatrix
+settings['zoom']         = -20; // Translate Z of viewMatrix

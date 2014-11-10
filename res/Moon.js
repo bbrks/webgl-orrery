@@ -1,18 +1,14 @@
 /**
- * @fileoverview Planet.js - A planet object
+ * @fileoverview Moon.js - A moon object
  * @author Ben Brooks (beb12@aber.ac.uk)
  * @version 1.0
  */
 
-function Planet(spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitInclination) {
+function Moon(parentObj) {
 
   var moveMatrix;
 
-  this.spinSpeed = spinSpeed;
-  this.axialTilt = axialTilt*(Math.PI/180);
-  this.orbitRadius = orbitRadius;
-  this.orbitSpeed = orbitSpeed;
-  this.orbitInclination = orbitInclination*(Math.PI/180);
+  this.parentObj = parentObj;
 
   // This function draws the planets
   this.draw = function() {
@@ -92,13 +88,10 @@ function Planet(spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitInclination)
 
   var delta = 0;
 
-  // This function updates the positions of the planet
+  // This function updates the position of the moon
   this.update = function() {
     delta++;
     moveMatrix = mat4.create();
-
-    // Set orbital inclination
-    mat4.rotateZ(moveMatrix, moveMatrix, this.orbitInclination);
 
     // Rotate the planet and translate by orbit radius
     mat4.rotateY(moveMatrix, moveMatrix, delta*this.orbitSpeed*(Math.PI/180));
