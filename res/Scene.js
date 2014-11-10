@@ -19,7 +19,7 @@ function initScene() {
   gl.depthFunc(gl.LEQUAL);
   gl.clearDepth(1.0);
 
-  objects.push(new Planet('Sun', 1, 0));
+  objects.push(new Planet());
 
   initShaders();
 

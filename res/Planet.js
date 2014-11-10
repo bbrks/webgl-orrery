@@ -4,25 +4,7 @@
  * @version 1.0
  */
 
-function Planet(name, radius, orbitRadius) {
-
-  if ('undefined' === typeof name) {
-    this.name = 'Planet';
-  } else {
-    this.name = name;
-  }
-
-  if ('undefined' === typeof radius) {
-    this.radius = 1;
-  } else {
-    this.radius = radius;
-  }
-
-  if ('undefined' === typeof orbitRadius) {
-    this.orbitRadius = 0;
-  } else {
-    this.orbitRadius = orbitRadius;
-  }
+function Planet() {
 
   moveMatrix = WebGLUtils.get_I4();
 
