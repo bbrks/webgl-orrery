@@ -4,7 +4,9 @@
  * @version 1.0
  */
 
-function Planet() {
+function Planet(spinSpeed) {
+
+  this.spinSpeed = spinSpeed;
 
   moveMatrix = WebGLUtils.get_I4();
 
@@ -84,11 +86,13 @@ function Planet() {
     gl.drawElements(gl.TRIANGLES, 6*2*3, gl.UNSIGNED_SHORT, 0);
   }
 
+  var angle = 0;
+
   // This function updates the positions of the planet
   this.update = function() {
+    angle++;
     WebGLUtils.set_I4(moveMatrix);
-    WebGLUtils.rotateY(moveMatrix, theta);
-    WebGLUtils.rotateX(moveMatrix, phi);
+    WebGLUtils.rotateY(moveMatrix, angle*spinSpeed*0.01);
   }
 
   return this;
