@@ -8,7 +8,8 @@ var objects = new Array();
 
 function initScene() {
 
-  projMatrix = WebGLUtils.get_projection(settings['fov'], canvas.width/canvas.height, 0.01, 10000);
+  projMatrix = mat4.create();
+  mat4.perspective(projMatrix, settings['fov'], canvas.width/canvas.height, 0.01, 10000);
 
   theta = 0,
   phi   = 0;
@@ -18,8 +19,7 @@ function initScene() {
   gl.depthFunc(gl.LEQUAL);
   gl.clearDepth(1.0);
 
-  objects.push(new Planet(1));
-  objects.push(new Planet(2));
+  objects.push(new Planet(1, 3));
 
   initShaders();
 
@@ -42,6 +42,7 @@ function update() {
   WebGLUtils.translateZ(viewMatrix, settings['zoom']);
   WebGLUtils.rotateY(viewMatrix, theta);
   WebGLUtils.rotateX(viewMatrix, phi);
+  WebGLUtils.rotateX(viewMatrix, 0.5);
 
   // Loop update function every 16.667ms if possible
   setTimeout(update, 1000 / 60);
