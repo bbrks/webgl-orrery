@@ -21,7 +21,7 @@ function initScene() {
 
   // Semi-accurate data taken from http://en.wikipedia.org/wiki/List_of_gravitationally_rounded_objects_of_the_Solar_System#Planets
   // Spin speed, Axial Tilt, Orbit radius, Orbit speed, Orbit inclination
-  objects.push(new Planet(   0.000,   0.00,   0.00,   0.000, 0.00));
+  objects.push(new Planet(  25.050,   0.00,   0.00,   0.000, 0.00));
   objects.push(new Planet(  58.640,   0.00,   3.87,  47.873, 7.00));
   objects.push(new Planet(-243.018, 177.30,   7.23,  35.021, 3.39));
   objects.push(new Planet(   0.997,  23.44,  10.00,  29.786, 0.00));
