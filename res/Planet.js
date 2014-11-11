@@ -4,10 +4,11 @@
  * @version 1.0
  */
 
-function Planet(spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitInclination, textureURL) {
+function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitInclination, textureURL) {
 
   var moveMatrix;
 
+  this.radius = radius;
   this.spinSpeed = spinSpeed*0.01;
   this.axialTilt = axialTilt*(Math.PI/180);
   this.orbitRadius = orbitRadius;
@@ -19,35 +20,35 @@ function Planet(spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitInclination,
   this.draw = function() {
     // XYZ /**/ RGB
     var mesh_verts = [
-      -1,-1,-1,    0,0,
-      1,-1,-1,     1,0,
-      1, 1,-1,     1,1,
-      -1, 1,-1,    0,1,
+      -1*this.radius,-1*this.radius,-1*this.radius,    0,0,
+      1*this.radius,-1*this.radius,-1*this.radius,     1,0,
+      1*this.radius, 1*this.radius,-1*this.radius,     1,1,
+      -1*this.radius, 1*this.radius,-1*this.radius,    0,1,
 
-      -1,-1, 1,    0,0,
-      1,-1, 1,     1,0,
-      1, 1, 1,     1,1,
-      -1, 1, 1,    0,1,
+      -1*this.radius,-1*this.radius, 1*this.radius,    0,0,
+      1*this.radius,-1*this.radius, 1*this.radius,     1,0,
+      1*this.radius, 1*this.radius, 1*this.radius,     1,1,
+      -1*this.radius, 1*this.radius, 1*this.radius,    0,1,
 
-      -1,-1,-1,    0,0,
-      -1, 1,-1,    1,0,
-      -1, 1, 1,    1,1,
-      -1,-1, 1,    0,1,
+      -1*this.radius,-1*this.radius,-1*this.radius,    0,0,
+      -1*this.radius, 1*this.radius,-1*this.radius,    1,0,
+      -1*this.radius, 1*this.radius, 1*this.radius,    1,1,
+      -1*this.radius,-1*this.radius, 1*this.radius,    0,1,
 
-      1,-1,-1,     0,0,
-      1, 1,-1,     1,0,
-      1, 1, 1,     1,1,
-      1,-1, 1,     0,1,
+      1*this.radius,-1*this.radius,-1*this.radius,     0,0,
+      1*this.radius, 1*this.radius,-1*this.radius,     1,0,
+      1*this.radius, 1*this.radius, 1*this.radius,     1,1,
+      1*this.radius,-1*this.radius, 1*this.radius,     0,1,
 
-      -1,-1,-1,    0,0,
-      -1,-1, 1,    1,0,
-      1,-1, 1,     1,1,
-      1,-1,-1,     0,1,
+      -1*this.radius,-1*this.radius,-1*this.radius,    0,0,
+      -1*this.radius,-1*this.radius, 1*this.radius,    1,0,
+      1*this.radius,-1*this.radius, 1*this.radius,     1,1,
+      1*this.radius,-1*this.radius,-1*this.radius,     0,1,
 
-      -1, 1,-1,    0,0,
-      -1, 1, 1,    1,0,
-      1, 1, 1,     1,1,
-      1, 1,-1,     0,1,
+      -1*this.radius, 1*this.radius,-1*this.radius,    0,0,
+      -1*this.radius, 1*this.radius, 1*this.radius,    1,0,
+      1*this.radius, 1*this.radius, 1*this.radius,     1,1,
+      1*this.radius, 1*this.radius,-1*this.radius,     0,1,
     ];
 
     var MESH_VERTEX = gl.createBuffer ();
@@ -112,8 +113,8 @@ function Planet(spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitInclination,
     mat4.translate(moveMatrix, moveMatrix, [this.orbitRadius, 0, 0]);
 
     // Spin planet
-    mat4.rotateY(moveMatrix, moveMatrix, delta*this.spinSpeed*(Math.PI/180));
     mat4.rotateZ(moveMatrix, moveMatrix, this.axialTilt);
+    mat4.rotateY(moveMatrix, moveMatrix, delta*this.spinSpeed*(Math.PI/180));
   }
 
   return this;
