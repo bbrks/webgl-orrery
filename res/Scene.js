@@ -22,7 +22,7 @@ function initScene() {
   // Semi-accurate data taken from http://en.wikipedia.org/wiki/List_of_gravitationally_rounded_objects_of_the_Solar_System#Planets
   // Radius (0-1), Spin speed (0-1), Axial Tilt (deg), Orbit radius, Orbit speed(0-1), Orbit inclination (deg), Texture path
   objects.push(new Planet(10000,       0,   45,   0.00,   0.000, 0.00, 'textures/starfield.png'));
-  objects.push(new Planet(1,       25.050,   0.00,   0.00,   0.000, 0.00, 'textures/sunmap.jpg'));
+  objects.push(new Planet(1,       25.050,   0.00,   0.00,   0.000, 0.00, 'textures/sunmap.png'));
   objects.push(new Planet(0.25,    58.640,   0.00,   2,  47.873, 7.00, 'textures/mercurymap.jpg'));
   objects.push(new Planet(0.3,   243.018, 177.30,   4,  35.021, 3.39, 'textures/venusmap.jpg'));
   objects.push(new Planet(0.5,    100.997,  23.44,  6,  29.786, 0.00, 'textures/earthmap1k.jpg'));
