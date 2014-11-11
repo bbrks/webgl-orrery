@@ -18,11 +18,11 @@
 
   <script id="shader-fs" type="x-shader/x-fragment">
     precision mediump float;
-
-    varying vec3 vColour;
+    uniform sampler2D sampler;
+    varying vec2 vUV;
 
     void main(void) {
-      gl_FragColor = vec4(vColour, 1.0);
+      gl_FragColor = texture2D(sampler, vUV);
     }
   </script>
   <script id="shader-vs" type="x-shader/x-vertex">
@@ -30,13 +30,13 @@
     uniform mat4 Pmatrix;
     uniform mat4 Mmatrix;
     uniform mat4 Vmatrix;
-    attribute vec3 colour;
 
-    varying vec3 vColour;
+    attribute vec2 uv;
+    varying vec2 vUV;
 
     void main(void) {
       gl_Position = Pmatrix * Vmatrix * Mmatrix * vec4(position, 1.0);
-      vColour = colour;
+      vUV=uv;
     }
   </script>
 

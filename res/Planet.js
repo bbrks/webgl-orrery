@@ -4,7 +4,7 @@
  * @version 1.0
  */
 
-function Planet(spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitInclination) {
+function Planet(spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitInclination, textureURL) {
 
   var moveMatrix;
 
@@ -13,40 +13,41 @@ function Planet(spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitInclination)
   this.orbitRadius = orbitRadius;
   this.orbitSpeed = orbitSpeed*0.01;
   this.orbitInclination = orbitInclination*(Math.PI/180);
+  this.texture = getTexture(textureURL);
 
   // This function draws the planets
   this.draw = function() {
     // XYZ /**/ RGB
     var mesh_verts = [
-      -1, -1, -1,     1, 1, 0,
-       1, -1, -1,     1, 1, 0,
-       1,  1, -1,     1, 1, 0,
-      -1,  1, -1,     1, 1, 0,
+      -1,-1,-1,    0,0,
+      1,-1,-1,     1,0,
+      1, 1,-1,     1,1,
+      -1, 1,-1,    0,1,
 
-      -1, -1,  1,     0, 0, 1,
-       1, -1,  1,     0, 0, 1,
-       1,  1,  1,     0, 0, 1,
-      -1,  1,  1,     0, 0, 1,
+      -1,-1, 1,    0,0,
+      1,-1, 1,     1,0,
+      1, 1, 1,     1,1,
+      -1, 1, 1,    0,1,
 
-      -1, -1, -1,     0, 1, 1,
-      -1,  1, -1,     0, 1, 1,
-      -1,  1,  1,     0, 1, 1,
-      -1, -1,  1,     0, 1, 1,
+      -1,-1,-1,    0,0,
+      -1, 1,-1,    1,0,
+      -1, 1, 1,    1,1,
+      -1,-1, 1,    0,1,
 
-       1, -1, -1,     1, 0, 0,
-       1,  1, -1,     1, 0, 0,
-       1,  1,  1,     1, 0, 0,
-       1, -1,  1,     1, 0, 0,
+      1,-1,-1,     0,0,
+      1, 1,-1,     1,0,
+      1, 1, 1,     1,1,
+      1,-1, 1,     0,1,
 
-      -1, -1, -1,     1, 0, 1,
-      -1, -1,  1,     1, 0, 1,
-       1, -1,  1,     1, 0, 1,
-       1, -1, -1,     1, 0, 1,
+      -1,-1,-1,    0,0,
+      -1,-1, 1,    1,0,
+      1,-1, 1,     1,1,
+      1,-1,-1,     0,1,
 
-      -1,  1, -1,     0, 1, 0,
-      -1,  1,  1,     0, 1, 0,
-       1,  1,  1,     0, 1, 0,
-       1,  1, -1,     0, 1, 0,
+      -1, 1,-1,    0,0,
+      -1, 1, 1,    1,0,
+      1, 1, 1,     1,1,
+      1, 1,-1,     0,1,
     ];
 
     var MESH_VERTEX = gl.createBuffer ();
@@ -82,8 +83,14 @@ function Planet(spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitInclination)
     gl.uniformMatrix4fv(_Pmatrix, false, projMatrix);
     gl.uniformMatrix4fv(_Mmatrix, false, moveMatrix);
     gl.uniformMatrix4fv(_Vmatrix, false, viewMatrix);
-    gl.vertexAttribPointer(_position, 3, gl.FLOAT, false, 4*(3+3),0);
-    gl.vertexAttribPointer(_colour, 3, gl.FLOAT, false, 4*(3+3),3*4);
+
+    if (this.texture.webglTexture) {
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, this.texture.webglTexture);
+    }
+
+    gl.vertexAttribPointer(_position, 3, gl.FLOAT, false,4*(3+2),0) ;
+    gl.vertexAttribPointer(_uv, 2, gl.FLOAT, false,4*(3+2),3*4) ;
 
     gl.bindBuffer(gl.ARRAY_BUFFER, MESH_VERTEX);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, MESH_FACES);
@@ -105,8 +112,8 @@ function Planet(spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitInclination)
     mat4.translate(moveMatrix, moveMatrix, [this.orbitRadius, 0, 0]);
 
     // Spin planet
-    mat4.rotateZ(moveMatrix, moveMatrix, this.axialTilt);
     mat4.rotateY(moveMatrix, moveMatrix, delta*this.spinSpeed*(Math.PI/180));
+    mat4.rotateZ(moveMatrix, moveMatrix, this.axialTilt);
   }
 
   return this;
