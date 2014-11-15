@@ -114,11 +114,12 @@ function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitIncl
     // Set orbital inclination
     mat4.rotateZ(moveMatrix, moveMatrix, this.orbitInclination);
 
-    // Rotate the planet and translate by orbit radius
+    // Rotate the planet, translate by orbit radius and then undo the rotation to preserve axial tilt
     mat4.rotateY(moveMatrix, moveMatrix, delta*this.orbitSpeed*(Math.PI/180));
     mat4.translate(moveMatrix, moveMatrix, [this.orbitRadius, 0, 0]);
+    mat4.rotateY(moveMatrix, moveMatrix, -delta*this.orbitSpeed*(Math.PI/180));
 
-    // Spin planet
+    // Tilt the planet and then spin
     mat4.rotateZ(moveMatrix, moveMatrix, this.axialTilt);
     mat4.rotateY(moveMatrix, moveMatrix, delta*this.spinSpeed*(Math.PI/180));
   }
