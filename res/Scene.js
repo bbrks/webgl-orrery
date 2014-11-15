@@ -21,7 +21,7 @@ function initScene() {
 
   objects.push(new Skybox(10000, 'textures/starfield.png'));
 
-  // Radius (0-1), Spin speed (0-1), Axial Tilt (deg), Orbit radius, Orbit speed(0-1), Orbit inclination (deg), Texture path
+  // Radius (0-1), Spin speed, Axial Tilt (deg), Orbit radius, Orbit speed, Orbit inclination (deg), Texture path
   objects.push(new Planet(1,    25.050,   0.00,  0,   0.000, 0.00, 'textures/sunmap.png'));
   objects.push(new Planet(0.1,  58.640,   0.00,  2,  47.873, 7.00, 'textures/mercurymap.jpg'));
   objects.push(new Planet(0.2, 243.018, 177.30,  4,  35.021, 3.39, 'textures/venusmap.jpg'));
@@ -31,6 +31,9 @@ function initScene() {
   objects.push(new Planet(0.6, 100.444,  26.73, 24,   9.672, 2.48, 'textures/saturnmap.jpg'));
   objects.push(new Planet(0.4, 100.718,  97.86, 34,   6.835, 0.76, 'textures/uranusmap.jpg'));
   objects.push(new Planet(0.3, 100.671,  29.58, 44,   5.478, 1.77, 'textures/neptunemap.jpg'));
+
+  objects.push(new Moon(objects[4], 0.1, 0, 0, 0.6, 1000, 0, 'textures/moon.gif')); // Earth Moon
+  objects.push(new Ring(objects[7], 2, 'textures/ringsRGBA.png')); // Saturn's Rings
 
   initShaders();
 
@@ -49,12 +52,6 @@ function update() {
     objects[i].update();
   };
 
-  viewMatrix = mat4.create();
-  mat4.translate(viewMatrix, viewMatrix, [0, 0, settings['zoom']]);
-  mat4.rotateY(viewMatrix, viewMatrix, theta);
-  mat4.rotateX(viewMatrix, viewMatrix, phi);
-  mat4.rotateX(viewMatrix, viewMatrix, 90*(Math.PI/180));
-
   // Loop update function every 16.667ms if possible
   setTimeout(update, 1000 / 60);
 }
@@ -63,6 +60,12 @@ function update() {
  *
  */
 function draw() {
+
+  viewMatrix = mat4.create();
+  mat4.translate(viewMatrix, viewMatrix, [0, 0, settings['zoom']]);
+  mat4.rotateY(viewMatrix, viewMatrix, theta);
+  mat4.rotateX(viewMatrix, viewMatrix, phi);
+  mat4.rotateX(viewMatrix, viewMatrix, 90*(Math.PI/180));
 
   gl.viewport(0.0, 0.0, canvas.width, canvas.height);
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
