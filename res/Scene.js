@@ -54,7 +54,7 @@ function update() {
   mat4.translate(viewMatrix, viewMatrix, [0, 0, settings['zoom']]);
   mat4.rotateY(viewMatrix, viewMatrix, theta);
   mat4.rotateX(viewMatrix, viewMatrix, phi);
-  mat4.rotateX(viewMatrix, viewMatrix, 25*(Math.PI/180));
+  mat4.rotateX(viewMatrix, viewMatrix, 90*(Math.PI/180));
 
   // Loop update function every 16.667ms if possible
   setTimeout(update, 1000 / 60);
