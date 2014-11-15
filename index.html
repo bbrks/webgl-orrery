@@ -12,6 +12,7 @@
   <script type="text/javascript" src="res/Scene.js"></script>
   <script type="text/javascript" src="res/Settings.js"></script>
   <script type="text/javascript" src="res/Shaders.js"></script>
+  <script type="text/javascript" src="res/Skybox.js"></script>
   <script type="text/javascript" src="res/Planet.js"></script>
   <script type="text/javascript" src="res/Controls.js"></script>
 
@@ -29,6 +30,8 @@
     uniform mat4 Pmatrix;
     uniform mat4 Mmatrix;
     uniform mat4 Vmatrix;
+
+    attribute vec3 normal;
 
     attribute vec2 uv;
     varying vec2 vUV;

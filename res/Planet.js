@@ -18,84 +18,90 @@ function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitIncl
 
   // This function draws the planets
   this.draw = function() {
-    // XYZ /**/ RGB
-    var mesh_verts = [
-      -1*this.radius,-1*this.radius,-1*this.radius,    0,0,
-      1*this.radius,-1*this.radius,-1*this.radius,     1,0,
-      1*this.radius, 1*this.radius,-1*this.radius,     1,1,
-      -1*this.radius, 1*this.radius,-1*this.radius,    0,1,
 
-      -1*this.radius,-1*this.radius, 1*this.radius,    0,0,
-      1*this.radius,-1*this.radius, 1*this.radius,     1,0,
-      1*this.radius, 1*this.radius, 1*this.radius,     1,1,
-      -1*this.radius, 1*this.radius, 1*this.radius,    0,1,
+    var latitudeBands = 30;
+    var longitudeBands = 30;
+    var radius = this.radius;
 
-      -1*this.radius,-1*this.radius,-1*this.radius,    0,0,
-      -1*this.radius, 1*this.radius,-1*this.radius,    1,0,
-      -1*this.radius, 1*this.radius, 1*this.radius,    1,1,
-      -1*this.radius,-1*this.radius, 1*this.radius,    0,1,
+    var vertexPositionData = [];
+    var textureCoordData = [];
 
-      1*this.radius,-1*this.radius,-1*this.radius,     0,0,
-      1*this.radius, 1*this.radius,-1*this.radius,     1,0,
-      1*this.radius, 1*this.radius, 1*this.radius,     1,1,
-      1*this.radius,-1*this.radius, 1*this.radius,     0,1,
+    for (var latNumber=0; latNumber <= latitudeBands; latNumber++) {
+        var theta = latNumber * Math.PI / latitudeBands;
+        var sinTheta = Math.sin(theta);
+        var cosTheta = Math.cos(theta);
 
-      -1*this.radius,-1*this.radius,-1*this.radius,    0,0,
-      -1*this.radius,-1*this.radius, 1*this.radius,    1,0,
-      1*this.radius,-1*this.radius, 1*this.radius,     1,1,
-      1*this.radius,-1*this.radius,-1*this.radius,     0,1,
+        for (var longNumber=0; longNumber <= longitudeBands; longNumber++) {
+            var phi = longNumber * 2 * Math.PI / longitudeBands;
+            var sinPhi = Math.sin(phi);
+            var cosPhi = Math.cos(phi);
 
-      -1*this.radius, 1*this.radius,-1*this.radius,    0,0,
-      -1*this.radius, 1*this.radius, 1*this.radius,    1,0,
-      1*this.radius, 1*this.radius, 1*this.radius,     1,1,
-      1*this.radius, 1*this.radius,-1*this.radius,     0,1,
-    ];
+            var x = cosPhi * sinTheta;
+            var y = cosTheta;
+            var z = sinPhi * sinTheta;
+            var u = 1 - (longNumber / longitudeBands);
+            var v = 1 - (latNumber / latitudeBands);
 
-    var MESH_VERTEX = gl.createBuffer ();
-    gl.bindBuffer(gl.ARRAY_BUFFER, MESH_VERTEX);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(mesh_verts), gl.STATIC_DRAW);
+            textureCoordData.push(u);
+            textureCoordData.push(v);
+            vertexPositionData.push(radius * x);
+            vertexPositionData.push(radius * y);
+            vertexPositionData.push(radius * z);
+        }
+    }
 
-    // 2 tris per square face
-    var mesh_faces = [
-      0,1,2,
-      0,2,3,
+    var indexData = [];
+    for (var latNumber=0; latNumber < latitudeBands; latNumber++) {
+        for (var longNumber=0; longNumber < longitudeBands; longNumber++) {
+            var first = (latNumber * (longitudeBands + 1)) + longNumber;
+            var second = first + longitudeBands + 1;
+            indexData.push(first);
+            indexData.push(second);
+            indexData.push(first + 1);
 
-      4,5,6,
-      4,6,7,
+            indexData.push(second);
+            indexData.push(second + 1);
+            indexData.push(first + 1);
+        }
+    }
 
-      8,9,10,
-      8,10,11,
+    var vertexTextureCoordBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexTextureCoordBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoordData), gl.STATIC_DRAW);
+    vertexTextureCoordBuffer.itemSize = 2;
+    vertexTextureCoordBuffer.numItems = textureCoordData.length / 2;
 
-      12,13,14,
-      12,14,15,
+    var vertexPositionBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexPositionBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexPositionData), gl.STATIC_DRAW);
+    vertexPositionBuffer.itemSize = 3;
+    vertexPositionBuffer.numItems = vertexPositionData.length / 3;
 
-      16,17,18,
-      16,18,19,
-
-      20,21,22,
-      20,22,23,
-    ];
-    var MESH_FACES = gl.createBuffer();
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, MESH_FACES);
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,
-                  new Uint16Array(mesh_faces),
-      gl.STATIC_DRAW);
-
-    gl.uniformMatrix4fv(_Pmatrix, false, projMatrix);
-    gl.uniformMatrix4fv(_Mmatrix, false, moveMatrix);
-    gl.uniformMatrix4fv(_Vmatrix, false, viewMatrix);
+    var vertexIndexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, vertexIndexBuffer);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indexData), gl.STATIC_DRAW);
+    vertexIndexBuffer.itemSize = 1;
+    vertexIndexBuffer.numItems = indexData.length;
 
     if (this.texture.webglTexture) {
       gl.activeTexture(gl.TEXTURE0);
       gl.bindTexture(gl.TEXTURE_2D, this.texture.webglTexture);
     }
 
-    gl.vertexAttribPointer(_position, 3, gl.FLOAT, false,4*(3+2),0) ;
-    gl.vertexAttribPointer(_uv, 2, gl.FLOAT, false,4*(3+2),3*4) ;
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexPositionBuffer);
+    gl.vertexAttribPointer(_position, vertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, MESH_VERTEX);
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, MESH_FACES);
-    gl.drawElements(gl.TRIANGLES, 6*2*3, gl.UNSIGNED_SHORT, 0);
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexTextureCoordBuffer);
+    gl.vertexAttribPointer(_uv, vertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, vertexIndexBuffer);
+
+    gl.uniformMatrix4fv(_Pmatrix, false, projMatrix);
+    gl.uniformMatrix4fv(_Mmatrix, false, moveMatrix);
+    gl.uniformMatrix4fv(_Vmatrix, false, viewMatrix);
+
+    gl.drawElements(gl.TRIANGLES, vertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+
   }
 
   var delta = 0;
