@@ -19,8 +19,8 @@ function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitIncl
   // This function draws the planets
   this.draw = function() {
 
-    var latitudeBands = 30;
-    var longitudeBands = 30;
+    var latitudeBands = 32;
+    var longitudeBands = 32;
     var radius = this.radius;
 
     var vertexPositionData = [];
