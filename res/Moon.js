@@ -109,6 +109,8 @@ function Moon(parent, radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orb
 
   // This function updates the positions of the moon
   this.update = function() {
+    this.updateSimSpeed();
+
     delta++;
     moveMatrix = mat4.create();
 
@@ -135,6 +137,11 @@ function Moon(parent, radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orb
     // Tilt the moon and then spin
     mat4.rotateZ(moveMatrix, moveMatrix, this.axialTilt);
     mat4.rotateY(moveMatrix, moveMatrix, delta*this.spinSpeed*(Math.PI/180));
+  }
+
+  this.updateSimSpeed = function() {
+    this.spinSpeed = spinSpeed*0.1*settings['simSpeed'];
+    this.orbitSpeed = orbitSpeed*0.01*settings['simSpeed'];
   }
 
   return this;

@@ -8,8 +8,7 @@ var objects = new Array();
 
 function initScene() {
 
-  projMatrix = mat4.create();
-  mat4.perspective(projMatrix, settings['fov'], canvas.width/canvas.height, 0.01, 100000);
+  setFoV(45);
 
   theta = 0,
   phi   = 0;
@@ -32,7 +31,7 @@ function initScene() {
   objects.push(new Planet(0.4, 100.718,  97.86, 34,   6.835, 0.76, 'textures/uranusmap.jpg'));
   objects.push(new Planet(0.3, 100.671,  29.58, 44,   5.478, 1.77, 'textures/neptunemap.jpg'));
 
-  objects.push(new Moon(objects[4], 0.1, 0, 0, 0.6, 1000, 0, 'textures/moon.gif')); // Earth Moon
+  objects.push(new Moon(objects[4], 0.1, -75, 0, 0.6, -700, 0, 'textures/moon.gif')); // Earth Moon
   objects.push(new Ring(objects[7], 2, 'textures/ringsRGBA.png')); // Saturn's Rings
 
   initShaders();
@@ -81,4 +80,11 @@ function draw() {
   // Request animation frame from browser
   // (typical target 16.667ms/frame)
   requestAnimationFrame(draw);
+}
+
+function setFoV(fovDegrees) {
+  fovRadians = fovDegrees * (Math.PI/180);
+  settings['fov'] = fovRadians;
+  projMatrix = mat4.create();
+  mat4.perspective(projMatrix, settings['fov'], canvas.width/canvas.height, 0.01, 100000);
 }

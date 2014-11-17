@@ -26,3 +26,11 @@ var mouseScroll = function(e) {
   settings['zoom'] += e.wheelDeltaY*0.001;
   e.preventDefault();
 }
+
+function setZoom(zoom) {
+  settings['zoom'] = zoom;
+}
+
+function setSimSpeed(simSpeed) {
+  settings['simSpeed'] = simSpeed;
+}

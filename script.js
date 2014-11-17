@@ -15,6 +15,27 @@ function init() {
   canvas.addEventListener("mousemove", mouseMove, false);
   canvas.addEventListener("mousewheel", mouseScroll, false);
 
+  var fovSlider = document.getElementById('fovSlider');
+  fovSlider.addEventListener("input", function() {
+    var val = document.getElementById('fovVal');
+    val.innerText = fovSlider.value;
+    setFoV(fovSlider.value);
+  });
+
+  var zoomSlider = document.getElementById('zoomSlider');
+  zoomSlider.addEventListener("input", function() {
+    var val = document.getElementById('zoomVal');
+    val.innerText = zoomSlider.value;
+    setZoom(zoomSlider.value);
+  });
+
+  var simSpeedSlider = document.getElementById('simSpeedSlider');
+  simSpeedSlider.addEventListener("input", function() {
+    var val = document.getElementById('simSpeedVal');
+    val.innerText = simSpeedSlider.value;
+    setSimSpeed(simSpeedSlider.value);
+  });
+
 }
 
 window.onload = init;
