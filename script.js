@@ -19,21 +19,21 @@ function init() {
   fovSlider.addEventListener("input", function() {
     var val = document.getElementById('fovVal');
     val.innerText = fovSlider.value;
-    setFoV(fovSlider.value);
+    setFoV(parseInt(fovSlider.value));
   });
 
   var zoomSlider = document.getElementById('zoomSlider');
   zoomSlider.addEventListener("input", function() {
     var val = document.getElementById('zoomVal');
     val.innerText = zoomSlider.value;
-    setZoom(zoomSlider.value);
+    setZoom(parseInt(zoomSlider.value));
   });
 
   var simSpeedSlider = document.getElementById('simSpeedSlider');
   simSpeedSlider.addEventListener("input", function() {
     var val = document.getElementById('simSpeedVal');
     val.innerText = simSpeedSlider.value;
-    setSimSpeed(simSpeedSlider.value);
+    setSimSpeed(parseInt(simSpeedSlider.value));
   });
 
 }
