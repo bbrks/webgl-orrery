@@ -24,6 +24,8 @@ var mouseMove = function(e) {
 
 var mouseScroll = function(e) {
   settings['zoom'] += e.wheelDeltaY*0.001;
+  document.getElementById('zoomVal').innerText = Math.round(settings['zoom']);
+  document.getElementById('zoomSlider').value = Math.round(settings['zoom']);
   e.preventDefault();
 }
 

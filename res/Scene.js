@@ -17,6 +17,9 @@ function initScene() {
   gl.enable(gl.DEPTH_TEST);
   gl.depthFunc(gl.LESS);
   gl.clearDepth(1.0);
+  gl.enable(gl.BLEND);
+  gl.blendEquation(gl.FUNC_ADD);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
   objects.push(new Skybox(10000, 'textures/starfield.png'));
 
