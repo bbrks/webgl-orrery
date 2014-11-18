@@ -5,16 +5,19 @@
  */
 
 function init() {
+  // Set up the canvas and load the scene
   canvas = document.getElementById('canvas');
   gl = initWebGL(canvas);
   initScene();
 
+  // Add event listeners to grab mouse input
   canvas.addEventListener("mousedown", mouseDown, false);
   canvas.addEventListener("mouseup", mouseUp, false);
   canvas.addEventListener("mouseout", mouseUp, false);
   canvas.addEventListener("mousemove", mouseMove, false);
   canvas.addEventListener("mousewheel", mouseScroll, false);
 
+  // Listen for changes to HTML controls and update settings
   var fovSlider = document.getElementById('fovSlider');
   fovSlider.addEventListener("input", function() {
     var val = document.getElementById('fovVal');

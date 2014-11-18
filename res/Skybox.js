@@ -1,5 +1,5 @@
 /**
- * @fileoverview Planet.js - A planet object
+ * @fileoverview Skybox.js - A skybox object
  * @author Ben Brooks (beb12@aber.ac.uk)
  * @version 1.0
  */
@@ -11,7 +11,7 @@ function Skybox(size, textureURL) {
   this.size = size;
   this.texture = getTexture(textureURL);
 
-  // This function draws the planets
+  // Draw a cube of dimensions 'size'
   this.draw = function() {
 
     var mesh_verts = [
@@ -76,10 +76,12 @@ function Skybox(size, textureURL) {
                   new Uint16Array(mesh_faces),
       gl.STATIC_DRAW);
 
+    // Set matrices
     gl.uniformMatrix4fv(_Pmatrix, false, projMatrix);
     gl.uniformMatrix4fv(_Mmatrix, false, moveMatrix);
     gl.uniformMatrix4fv(_Vmatrix, false, viewMatrix);
 
+    // Texture surfaces
     if (this.texture.webglTexture) {
       gl.activeTexture(gl.TEXTURE0);
       gl.bindTexture(gl.TEXTURE_2D, this.texture.webglTexture);

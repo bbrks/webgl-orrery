@@ -22,6 +22,7 @@ var mouseMove = function(e) {
   e.preventDefault();
 };
 
+// When we scroll the mouse, move the HTML slider, and vice versa
 var mouseScroll = function(e) {
   settings['zoom'] += e.wheelDeltaY*0.001;
   document.getElementById('zoomVal').innerText = Math.round(settings['zoom']);

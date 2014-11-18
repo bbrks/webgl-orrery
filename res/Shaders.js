@@ -4,6 +4,8 @@ var _Vmatrix;
 var _position;
 var _colour;
 
+// Load up fragment and vertex shaders
+// Then set up some global variables to use
 function initShaders() {
   var fragmentShader = getShader(gl, "shader-fs");
   var vertexShader   = getShader(gl, "shader-vs");
@@ -31,6 +33,7 @@ function initShaders() {
   gl.uniform1i(_sampler, 0);
 }
 
+// Get shader script from element ID and return a compiled shader
 function getShader(gl, id) {
 
   var script = document.getElementById(id);
@@ -65,6 +68,7 @@ function getShader(gl, id) {
 
 }
 
+// Pass an image URL and return a WebGL texture
 function getTexture(imageURL) {
   var image = new Image();
 
@@ -76,6 +80,7 @@ function getTexture(imageURL) {
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
     gl.bindTexture(gl.TEXTURE_2D, texture);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+    // Filter magnified textures linearly, reduced textures by mipmap
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST_MIPMAP_LINEAR);
     gl.generateMipmap(gl.TEXTURE_2D);

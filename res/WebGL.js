@@ -10,21 +10,24 @@
  */
 function initWebGL(canvas) {
 
-  var devicePixelRatio = window.devicePixelRatio || 1;
-  var width  = canvas.clientWidth;
-  var height = canvas.clientHeight;
+  // Render at 4x native resolution to smooth out those mip-maps!
+  var superSampleFactor = 4; // ((WARNING: PERFORMANCE LOSS))
 
   // set the display size of the canvas.
+  var width  = canvas.clientWidth;
+  var height = canvas.clientHeight;
   canvas.style.width  = width  + "px";
   canvas.style.height = height + "px";
 
-  // set the size of the drawingBuffer
-  canvas.width  = width  * devicePixelRatio;
-  canvas.height = height * devicePixelRatio;
+  // set the size of the drawing buffer
+  canvas.width  = width  * superSampleFactor;
+  canvas.height = height * superSampleFactor;
 
+  // Enable anti-aliasing
   glContext = canvas.getContext("webgl", {antialias: true}) ||
               canvas.getContext("experimental-webgl", {antialias: true});
 
+  // Set viewport size
   glContext.viewportWidth  = canvas.width;
   glContext.viewportHeight = canvas.height;
 

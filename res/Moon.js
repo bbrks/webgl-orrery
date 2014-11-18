@@ -1,13 +1,16 @@
 /**
- * @fileoverview Planet.js - A planet object
+ * @fileoverview Moon.js - A moon object
  * @author Ben Brooks (beb12@aber.ac.uk)
  * @version 1.0
  */
 
 function Moon(parent, radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitInclination, textureURL) {
 
+  // Set matrices
   var moveMatrix;
+  var normalMatrix;
 
+  // Set object variables and do a bit of maths (e.g. Degrees to Radians)
   this.parent = parent;
   this.radius = radius;
   this.spinSpeed = spinSpeed*0.1*settings['simSpeed'];
@@ -17,16 +20,20 @@ function Moon(parent, radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orb
   this.orbitInclination = orbitInclination*(Math.PI/180);
   this.texture = getTexture(textureURL);
 
-  // This function draws the planets
+  // This is called in the Scene's draw loop
   this.draw = function() {
 
+    // Define bands of sphere and radius
     var latitudeBands = 32;
     var longitudeBands = 32;
     var radius = this.radius;
 
+    // Set data arrays
     var vertexPositionData = [];
+    var normalData = [];
     var textureCoordData = [];
 
+    // Loop through latitude and longitude bands
     for (var latNumber=0; latNumber <= latitudeBands; latNumber++) {
       var theta = latNumber * Math.PI / latitudeBands;
       var sinTheta = Math.sin(theta);
@@ -66,6 +73,13 @@ function Moon(parent, radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orb
       }
     }
 
+    // Set up buffers
+    var normalBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(normalData), gl.STATIC_DRAW);
+    normalBuffer.itemSize = 3;
+    normalBuffer.numItems = normalData.length / 3;
+
     var vertexTextureCoordBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexTextureCoordBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoordData), gl.STATIC_DRAW);
@@ -84,23 +98,30 @@ function Moon(parent, radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orb
     vertexIndexBuffer.itemSize = 1;
     vertexIndexBuffer.numItems = indexData.length;
 
+    // Texture surfaces
     if (this.texture.webglTexture) {
       gl.activeTexture(gl.TEXTURE0);
       gl.bindTexture(gl.TEXTURE_2D, this.texture.webglTexture);
     }
 
+    // Bind buffers
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexPositionBuffer);
     gl.vertexAttribPointer(_position, vertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexTextureCoordBuffer);
     gl.vertexAttribPointer(_uv, vertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
+    gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
+    gl.vertexAttribPointer(_normal, normalBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, vertexIndexBuffer);
 
+    // Set matrices
     gl.uniformMatrix4fv(_Pmatrix, false, projMatrix);
     gl.uniformMatrix4fv(_Mmatrix, false, moveMatrix);
     gl.uniformMatrix4fv(_Vmatrix, false, viewMatrix);
 
+    // Draw the moon
     gl.drawElements(gl.TRIANGLES, vertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
 
   }
@@ -109,18 +130,15 @@ function Moon(parent, radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orb
 
   // This function updates the positions of the moon
   this.update = function() {
+    // Count up by simSpeed (used in rotations)
     delta += settings['simSpeed'];
     moveMatrix = mat4.create();
 
-    // Set orbital inclination to be that of the parent planet
+    // Do same transformations as parent object (described in Planet.js)
     mat4.rotateZ(moveMatrix, moveMatrix, this.parent.orbitInclination);
-
-    // Rotate the moon, translate by orbit radius and then undo the rotation to preserve axial tilt of the parent planet
     mat4.rotateY(moveMatrix, moveMatrix, (delta*this.parent.orbitSpeed*(Math.PI/180))+this.parent.orbitOffset);
     mat4.translate(moveMatrix, moveMatrix, [this.parent.orbitRadius, 0, 0]);
     mat4.rotateY(moveMatrix, moveMatrix, -delta*this.parent.orbitSpeed*(Math.PI/180));
-
-    // Tilt the moon and then spin of the parent planet
     mat4.rotateZ(moveMatrix, moveMatrix, this.parent.axialTilt);
     mat4.rotateY(moveMatrix, moveMatrix, delta*this.parent.spinSpeed*(Math.PI/180));
 

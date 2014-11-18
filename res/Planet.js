@@ -6,9 +6,11 @@
 
 function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitInclination, orbitOffset, textureURL) {
 
+  // Set matrices
   var moveMatrix;
   var normalMatrix;
 
+  // Set object variables and do a bit of maths (e.g. Degrees to Radians)
   this.radius = radius;
   this.spinSpeed = spinSpeed*0.1*settings['simSpeed'];
   this.axialTilt = axialTilt*(Math.PI/180);
@@ -18,17 +20,20 @@ function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitIncl
   this.texture = getTexture(textureURL);
   this.orbitOffset = orbitOffset*Math.PI*2;
 
-  // This function draws the planets
+  // This is called in the Scene's draw loop
   this.draw = function() {
 
+    // Define bands of sphere and radius
     var latitudeBands = 32;
     var longitudeBands = 32;
     var radius = this.radius;
 
+    // Set data arrays
     var vertexPositionData = [];
     var normalData = [];
     var textureCoordData = [];
 
+    // Loop through latitude and longitude bands
     for (var latNumber=0; latNumber <= latitudeBands; latNumber++) {
       var theta = latNumber * Math.PI / latitudeBands;
       var sinTheta = Math.sin(theta);
@@ -72,6 +77,7 @@ function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitIncl
       }
     }
 
+    // Set up buffers
     var normalBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(normalData), gl.STATIC_DRAW);
@@ -96,11 +102,13 @@ function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitIncl
     vertexIndexBuffer.itemSize = 1;
     vertexIndexBuffer.numItems = indexData.length;
 
+    // Texture surfaces
     if (this.texture.webglTexture) {
       gl.activeTexture(gl.TEXTURE0);
       gl.bindTexture(gl.TEXTURE_2D, this.texture.webglTexture);
     }
 
+    // Bind buffers
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexPositionBuffer);
     gl.vertexAttribPointer(_position, vertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
@@ -112,10 +120,12 @@ function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitIncl
 
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, vertexIndexBuffer);
 
+    // Set matrices
     gl.uniformMatrix4fv(_Pmatrix, false, projMatrix);
     gl.uniformMatrix4fv(_Mmatrix, false, moveMatrix);
     gl.uniformMatrix4fv(_Vmatrix, false, viewMatrix);
 
+    // Draw the planet
     gl.drawElements(gl.TRIANGLES, vertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
 
   }
@@ -124,6 +134,7 @@ function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitIncl
 
   // This function updates the positions of the planet
   this.update = function() {
+    // Count up by simSpeed (used in rotations)
     delta += settings['simSpeed'];
     moveMatrix = mat4.create();
 

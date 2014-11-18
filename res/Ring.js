@@ -1,5 +1,5 @@
 /**
- * @fileoverview Planet.js - A planet object
+ * @fileoverview Ring.js - A ring object
  * @author Ben Brooks (beb12@aber.ac.uk)
  * @version 1.0
  */
