@@ -15,7 +15,7 @@ function initScene() {
 
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
   gl.enable(gl.DEPTH_TEST);
-  gl.depthFunc(gl.LEQUAL);
+  gl.depthFunc(gl.LESS);
   gl.clearDepth(1.0);
 
   objects.push(new Skybox(10000, 'textures/starfield.png'));
