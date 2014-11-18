@@ -99,7 +99,7 @@ function Ring(parent, size, textureURL) {
 
   // This function updates the positions of the moon
   this.update = function() {
-    delta++;
+    delta += settings['simSpeed'];
     moveMatrix = mat4.create();
 
     // Set orbital inclination to be that of the parent planet

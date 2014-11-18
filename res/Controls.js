@@ -32,5 +32,5 @@ function setZoom(zoom) {
 }
 
 function setSimSpeed(simSpeed) {
-  settings['simSpeed'] = simSpeed;
+  settings['simSpeed'] = simSpeed*0.01;
 }

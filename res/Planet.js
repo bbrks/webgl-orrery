@@ -108,9 +108,7 @@ function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitIncl
 
   // This function updates the positions of the planet
   this.update = function() {
-    this.updateSimSpeed();
-
-    delta++;
+    delta += settings['simSpeed'];
     moveMatrix = mat4.create();
 
     // Set orbital inclination
@@ -124,11 +122,6 @@ function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitIncl
     // Tilt the planet and then spin
     mat4.rotateZ(moveMatrix, moveMatrix, this.axialTilt);
     mat4.rotateY(moveMatrix, moveMatrix, delta*this.spinSpeed*(Math.PI/180));
-  }
-
-  this.updateSimSpeed = function() {
-    this.spinSpeed = spinSpeed*0.1*settings['simSpeed'];
-    this.orbitSpeed = orbitSpeed*0.01*settings['simSpeed'];
   }
 
   return this;
