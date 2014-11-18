@@ -24,7 +24,8 @@
     varying vec2 vUV;
 
     void main(void) {
-      gl_FragColor = texture2D(sampler, vUV);
+      vec4 textureColor = texture2D(sampler, vUV);
+      gl_FragColor = vec4(textureColor.rgb, textureColor.a);
     }
   </script>
   <script id="shader-vs" type="x-shader/x-vertex">

@@ -18,7 +18,6 @@ function initScene() {
   gl.depthFunc(gl.LESS);
   gl.clearDepth(1.0);
   gl.enable(gl.BLEND);
-  gl.blendEquation(gl.FUNC_ADD);
   gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
   objects.push(new Skybox(10000, 'textures/starfield.png'));
@@ -35,7 +34,7 @@ function initScene() {
   objects.push(new Planet(0.3, 100.671,  29.58, 44,   5.478, 1.77, 'textures/neptunemap.jpg'));
 
   objects.push(new Moon(objects[4], 0.1, -75, 0, 0.6, -700, 0, 'textures/moon.gif')); // Earth Moon
-  objects.push(new Ring(objects[7], 2, 'textures/ringsRGBA.png')); // Saturn's Rings
+  objects.push(new Ring(objects[7], 2, 'textures/saturnrings.png')); // Saturn's Rings
 
   initShaders();
 
@@ -74,7 +73,7 @@ function draw() {
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
   // Loop through objects in scene and run draw function
-  for (var i = objects.length - 1; i >= 0; i--) {
+  for (var i = 0; i < objects.length; i++) {
     objects[i].draw();
   };
 
