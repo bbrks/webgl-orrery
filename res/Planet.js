@@ -4,9 +4,10 @@
  * @version 1.0
  */
 
-function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitInclination, textureURL) {
+function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitInclination, orbitOffset, textureURL) {
 
   var moveMatrix;
+  var normalMatrix;
 
   this.radius = radius;
   this.spinSpeed = spinSpeed*0.1*settings['simSpeed'];
@@ -15,6 +16,7 @@ function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitIncl
   this.orbitSpeed = orbitSpeed*0.01*settings['simSpeed'];
   this.orbitInclination = orbitInclination*(Math.PI/180);
   this.texture = getTexture(textureURL);
+  this.orbitOffset = orbitOffset*Math.PI*2;
 
   // This function draws the planets
   this.draw = function() {
@@ -24,6 +26,7 @@ function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitIncl
     var radius = this.radius;
 
     var vertexPositionData = [];
+    var normalData = [];
     var textureCoordData = [];
 
     for (var latNumber=0; latNumber <= latitudeBands; latNumber++) {
@@ -41,6 +44,10 @@ function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitIncl
         var z = sinPhi * sinTheta;
         var u = 1 - (longNumber / longitudeBands);
         var v = 1 - (latNumber / latitudeBands);
+
+        normalData.push(x);
+        normalData.push(y);
+        normalData.push(z);
 
         textureCoordData.push(u);
         textureCoordData.push(v);
@@ -64,6 +71,12 @@ function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitIncl
         indexData.push(first + 1);
       }
     }
+
+    var normalBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(normalData), gl.STATIC_DRAW);
+    normalBuffer.itemSize = 3;
+    normalBuffer.numItems = normalData.length / 3;
 
     var vertexTextureCoordBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexTextureCoordBuffer);
@@ -94,6 +107,9 @@ function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitIncl
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexTextureCoordBuffer);
     gl.vertexAttribPointer(_uv, vertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
+    gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
+    gl.vertexAttribPointer(_normal, normalBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, vertexIndexBuffer);
 
     gl.uniformMatrix4fv(_Pmatrix, false, projMatrix);
@@ -115,7 +131,7 @@ function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitIncl
     mat4.rotateZ(moveMatrix, moveMatrix, this.orbitInclination);
 
     // Rotate the planet, translate by orbit radius and then undo the rotation to preserve axial tilt
-    mat4.rotateY(moveMatrix, moveMatrix, delta*this.orbitSpeed*(Math.PI/180));
+    mat4.rotateY(moveMatrix, moveMatrix, (delta*this.orbitSpeed*(Math.PI/180))+this.orbitOffset);
     mat4.translate(moveMatrix, moveMatrix, [this.orbitRadius, 0, 0]);
     mat4.rotateY(moveMatrix, moveMatrix, -delta*this.orbitSpeed*(Math.PI/180));
 

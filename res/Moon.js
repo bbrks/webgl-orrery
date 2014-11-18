@@ -116,7 +116,7 @@ function Moon(parent, radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orb
     mat4.rotateZ(moveMatrix, moveMatrix, this.parent.orbitInclination);
 
     // Rotate the moon, translate by orbit radius and then undo the rotation to preserve axial tilt of the parent planet
-    mat4.rotateY(moveMatrix, moveMatrix, delta*this.parent.orbitSpeed*(Math.PI/180));
+    mat4.rotateY(moveMatrix, moveMatrix, (delta*this.parent.orbitSpeed*(Math.PI/180))+this.parent.orbitOffset);
     mat4.translate(moveMatrix, moveMatrix, [this.parent.orbitRadius, 0, 0]);
     mat4.rotateY(moveMatrix, moveMatrix, -delta*this.parent.orbitSpeed*(Math.PI/180));
 

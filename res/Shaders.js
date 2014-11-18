@@ -18,11 +18,13 @@ function initShaders() {
   _Mmatrix = gl.getUniformLocation(shaderProgram, "Mmatrix");
   _Vmatrix = gl.getUniformLocation(shaderProgram, "Vmatrix");
   _position = gl.getAttribLocation(shaderProgram, "position");
+  _normal = gl.getAttribLocation(shaderProgram, "normal");
 
   _uv = gl.getAttribLocation(shaderProgram, "uv");
   _sampler = gl.getUniformLocation(shaderProgram, "sampler");
 
   gl.enableVertexAttribArray(_position);
+  gl.enableVertexAttribArray(_normal);
   gl.enableVertexAttribArray(_uv);
 
   gl.useProgram(shaderProgram);
