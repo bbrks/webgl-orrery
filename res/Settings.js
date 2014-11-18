@@ -9,6 +9,6 @@ var settings = new Array();
 
 // Set some defaults
 settings['drawLighting'] = true;
-settings['fov']          = 0.524; // Field of view (radians)
-settings['zoom']         = -20; // Translate Z of viewMatrix
+settings['fov']          = 0.785; // Field of view (radians)
+settings['zoom']         = -10; // Translate Z of viewMatrix
 settings['simSpeed']     = 1;

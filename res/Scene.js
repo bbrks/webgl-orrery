@@ -10,7 +10,7 @@ var objects = new Array();
 function initScene() {
 
   // Set a default Field of View
-  setFoV(30);
+  setFoV(45);
 
   // For mouse controls
   theta = 0,
