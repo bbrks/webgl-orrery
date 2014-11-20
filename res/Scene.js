@@ -16,14 +16,15 @@ function initScene() {
   theta = 0,
   phi   = 0;
 
-  // Set clear colour to black, enable depth and alpha blending
+  // Set clear colour to black, enable depth and alpha blending and backface culling
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
   gl.enable(gl.DEPTH_TEST);
   gl.depthFunc(gl.LESS);
   gl.clearDepth(1.0);
   gl.enable(gl.BLEND);
   gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-  // gl.enable(gl.CULL_FACE); // TODO: Broken normals (invert them!)
+  // gl.enable(gl.CULL_FACE); // Causes problems with skybox and rings... disabled for now
+  gl.frontFace(gl.CW);
 
   // Add things to the objects list
 

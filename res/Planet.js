@@ -24,8 +24,8 @@ function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitIncl
   this.draw = function() {
 
     // Define bands of sphere and radius
-    var latitudeBands = 32;
-    var longitudeBands = 32;
+    var latitudeBands = 28;
+    var longitudeBands = 28;
     var radius = this.radius;
 
     // Set data arrays
@@ -124,6 +124,11 @@ function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitIncl
     gl.uniformMatrix4fv(_Pmatrix, false, projMatrix);
     gl.uniformMatrix4fv(_Mmatrix, false, moveMatrix);
     gl.uniformMatrix4fv(_Vmatrix, false, viewMatrix);
+
+    normalMatrix = mat3.create();
+    mat4.toInverseMat3(moveMatrix, normalMatrix);
+    mat3.transpose(normalMatrix, normalMatrix);
+    gl.uniformMatrix3fv(_Nmatrix, false, normalMatrix);
 
     // Draw the planet
     gl.drawElements(gl.TRIANGLES, vertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);

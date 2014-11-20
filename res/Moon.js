@@ -24,8 +24,9 @@ function Moon(parent, radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orb
   this.draw = function() {
 
     // Define bands of sphere and radius
-    var latitudeBands = 32;
-    var longitudeBands = 32;
+    // (number reduced for moons to improve performance)
+    var latitudeBands = 16;
+    var longitudeBands = 16;
     var radius = this.radius;
 
     // Set data arrays
