@@ -81,14 +81,22 @@ function Skybox(size, textureURL) {
     gl.uniformMatrix4fv(_Mmatrix, false, moveMatrix);
     gl.uniformMatrix4fv(_Vmatrix, false, viewMatrix);
 
+    var normalMatrix = mat3.create();
+    mat4.toInverseMat3(moveMatrix, normalMatrix);
+    mat3.transpose(normalMatrix, normalMatrix);
+    gl.uniformMatrix3fv(_Nmatrix, false, normalMatrix);
+
+    // Disable lighting for Skybox
+    gl.uniform1i(_useLighting, false);
+
     // Texture surfaces
     if (this.texture.webglTexture) {
       gl.activeTexture(gl.TEXTURE0);
       gl.bindTexture(gl.TEXTURE_2D, this.texture.webglTexture);
     }
 
-    gl.vertexAttribPointer(_position, 3, gl.FLOAT, false,4*(3+2),0) ;
-    gl.vertexAttribPointer(_uv, 2, gl.FLOAT, false,4*(3+2),3*4) ;
+    gl.vertexAttribPointer(_position, 3, gl.FLOAT, false,4*(3+2),0);
+    gl.vertexAttribPointer(_uv, 2, gl.FLOAT, false,4*(3+2),3*4);
 
     gl.bindBuffer(gl.ARRAY_BUFFER, MESH_VERTEX);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, MESH_FACES);

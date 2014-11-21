@@ -21,8 +21,10 @@ function initShaders() {
   _Vmatrix = gl.getUniformLocation(shaderProgram, "Vmatrix");
   _Nmatrix = gl.getUniformLocation(shaderProgram, "Nmatrix");
 
-  _position = gl.getAttribLocation(shaderProgram, "position");
-  _normal = gl.getAttribLocation(shaderProgram, "normal");
+  _useLighting = gl.getUniformLocation(shaderProgram, "uUseLighting");
+
+  _position = gl.getAttribLocation(shaderProgram, "aPosition");
+  _normal = gl.getAttribLocation(shaderProgram, "aNormal");
 
   _uv = gl.getAttribLocation(shaderProgram, "uv");
   _sampler = gl.getUniformLocation(shaderProgram, "sampler");

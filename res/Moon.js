@@ -53,6 +53,9 @@ function Moon(parent, radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orb
 
         textureCoordData.push(u);
         textureCoordData.push(v);
+        normalData.push(x);
+        normalData.push(y);
+        normalData.push(z);
         vertexPositionData.push(radius * x);
         vertexPositionData.push(radius * y);
         vertexPositionData.push(radius * z);
@@ -121,6 +124,13 @@ function Moon(parent, radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orb
     gl.uniformMatrix4fv(_Pmatrix, false, projMatrix);
     gl.uniformMatrix4fv(_Mmatrix, false, moveMatrix);
     gl.uniformMatrix4fv(_Vmatrix, false, viewMatrix);
+
+    normalMatrix = mat3.create();
+    mat4.toInverseMat3(moveMatrix, normalMatrix);
+    mat3.transpose(normalMatrix, normalMatrix);
+    gl.uniformMatrix3fv(_Nmatrix, false, normalMatrix);
+
+    gl.uniform1i(_useLighting, true);
 
     // Draw the moon
     gl.drawElements(gl.TRIANGLES, vertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);

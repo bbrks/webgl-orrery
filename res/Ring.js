@@ -81,6 +81,9 @@ function Ring(parent, size, textureURL) {
     gl.uniformMatrix4fv(_Mmatrix, false, moveMatrix);
     gl.uniformMatrix4fv(_Vmatrix, false, viewMatrix);
 
+    // Disable lighting for Rings
+    gl.uniform1i(_useLighting, false);
+
     if (this.texture.webglTexture) {
       gl.activeTexture(gl.TEXTURE0);
       gl.bindTexture(gl.TEXTURE_2D, this.texture.webglTexture);
