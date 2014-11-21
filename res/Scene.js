@@ -97,10 +97,10 @@ function draw() {
 
   // Create the view matrix and rotate according to mouse input and defaults
   viewMatrix = mat4.create();
-  mat4.translate(viewMatrix, viewMatrix, [0, 0, settings['zoom']]);
+  mat4.translate(viewMatrix, viewMatrix, [0, 0, 5*settings['zoom']]);
   mat4.rotateY(viewMatrix, viewMatrix, theta);
   mat4.rotateX(viewMatrix, viewMatrix, phi);
-  mat4.rotateX(viewMatrix, viewMatrix, 10*(Math.PI/180));
+  mat4.rotateX(viewMatrix, viewMatrix, 90*(Math.PI/180));
 
   gl.viewport(0.0, 0.0, canvas.width, canvas.height);
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
