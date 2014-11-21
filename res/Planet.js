@@ -18,7 +18,7 @@ function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitIncl
   this.orbitSpeed = orbitSpeed*0.01*settings['simSpeed'];
   this.orbitInclination = orbitInclination*(Math.PI/180);
   this.texture = getTexture(textureURL);
-  this.orbitOffset = orbitOffset*Math.PI*2;
+  this.orbitOffset = orbitOffset*Math.PI;
   if (flipNormals) {
     this.flipNormals = -1;
   } else {
