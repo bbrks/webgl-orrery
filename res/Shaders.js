@@ -22,9 +22,10 @@ function initShaders() {
   _Nmatrix = gl.getUniformLocation(shaderProgram, "Nmatrix");
 
   _useLighting = gl.getUniformLocation(shaderProgram, "uUseLighting");
+  _useSpecular = gl.getUniformLocation(shaderProgram, "uUseSpecular");
 
   _ambient = gl.getUniformLocation(shaderProgram, "uAmbientColor");
-  _pointColor = gl.getUniformLocation(shaderProgram, "uPointLightColor");
+  _pointColor = gl.getUniformLocation(shaderProgram, "uPointLightDiffuseColor");
   _pointPos = gl.getUniformLocation(shaderProgram, "uPointLightPosition");
 
   _position = gl.getAttribLocation(shaderProgram, "aPosition");

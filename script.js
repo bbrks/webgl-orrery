@@ -90,11 +90,6 @@ function init() {
     setPointPos(pointXSlider.value, pointYSlider.value, pointZSlider.value);
   }
 
-  var useLighting = document.getElementById('useLighting');
-  useLighting.addEventListener("change", function() {
-    enableLighting(useLighting.checked);
-  });
-
 }
 
 window.onload = init;

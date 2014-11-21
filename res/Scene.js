@@ -153,7 +153,3 @@ function setPointPos(x,y,z) {
     parseFloat(z)
   );
 }
-
-function enableLighting(bool) {
-  gl.uniform1i(_useLighting, bool);
-}

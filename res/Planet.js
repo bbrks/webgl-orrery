@@ -135,6 +135,11 @@ function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitIncl
     mat3.transpose(normalMatrix, normalMatrix);
     gl.uniformMatrix3fv(_Nmatrix, false, normalMatrix);
 
+    if (flipNormals) {
+      gl.uniform1i(_useSpecular, false);
+    } else {
+      gl.uniform1i(_useSpecular, true);
+    }
     gl.uniform1i(_useLighting, true);
 
     // Draw the planet
