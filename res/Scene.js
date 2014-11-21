@@ -105,10 +105,13 @@ function draw() {
   gl.viewport(0.0, 0.0, canvas.width, canvas.height);
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-  // Loop through objects in scene and run draw function
-  for (var i = 0; i < objects.length; i++) {
-    objects[i].draw();
-  };
+  if (numTexturesLoading <= 0) {
+    document.getElementById('loading').style.display = "none";
+    // Loop through objects in scene and run draw function
+    for (var i = 0; i < objects.length; i++) {
+      objects[i].draw();
+    };
+  }
 
   gl.flush();
 

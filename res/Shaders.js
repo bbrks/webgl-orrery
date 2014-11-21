@@ -77,8 +77,11 @@ function getShader(gl, id) {
 
 }
 
+var numTexturesLoading = 0;
+
 // Pass an image URL and return a WebGL texture
 function getTexture(imageURL) {
+  numTexturesLoading++;
   var image = new Image();
 
   image.src = imageURL;
@@ -95,6 +98,7 @@ function getTexture(imageURL) {
     gl.generateMipmap(gl.TEXTURE_2D);
     gl.bindTexture(gl.TEXTURE_2D, null);
     image.webglTexture = texture;
+    numTexturesLoading--;
   };
 
   return image;
