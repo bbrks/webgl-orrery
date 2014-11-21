@@ -4,6 +4,20 @@
  * @version 1.0
  */
 
+/**
+ * An object class to define a moon
+ *
+ * @param parent - Parent object of the moon
+ * @param radius - Radius of the moon
+ * @param spinSpeed - Speed of spin
+ * @param axialTilt - Axial tilt in degrees
+ * @param orbitRadius - Radius of the orbit
+ * @param orbitSpeed - Speed of the orbit
+ * @param orbitInclination - Inclination of the orbit
+ * @param textureURL - A URL to an image to be used as a texture
+ *
+ * @returns moon - The moon
+ */
 function Moon(parent, radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitInclination, textureURL) {
 
   // Set matrices
@@ -11,19 +25,22 @@ function Moon(parent, radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orb
   var normalMatrix;
 
   // Set object variables and do a bit of maths (e.g. Degrees to Radians)
-  this.parent = parent;
-  this.radius = radius;
-  this.spinSpeed = spinSpeed*0.1*settings['simSpeed'];
-  this.axialTilt = axialTilt*(Math.PI/180);
+  this.parent      = parent;
+  this.radius      = radius;
+  this.spinSpeed   = spinSpeed * 0.1 * settings['simSpeed'];
+  this.axialTilt   = axialTilt * (Math.PI/180);
   this.orbitRadius = orbitRadius;
-  this.orbitSpeed = orbitSpeed*0.01*settings['simSpeed'];
-  this.orbitInclination = orbitInclination*(Math.PI/180);
-  this.texture = getTexture(textureURL);
+  this.orbitSpeed  = orbitSpeed * 0.01 * settings['simSpeed'];
+  this.texture     = getTexture(textureURL);
+  this.orbitInclination = orbitInclination * (Math.PI/180);
 
   // This is called in the Scene's draw loop
   this.draw = function() {
 
-    // Define bands of sphere and radius
+    // Enable backface culling (Disabled on certain elements, e.g. Skybox and Planetary rings)
+    gl.enable(gl.CULL_FACE);
+
+    // Define number of bands of sphere and the radius
     // (number reduced for moons to improve performance)
     var latitudeBands = 16;
     var longitudeBands = 16;
@@ -62,6 +79,7 @@ function Moon(parent, radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orb
       }
     }
 
+    // Do seperate loops for indexes
     var indexData = [];
     for (var latNumber=0; latNumber < latitudeBands; latNumber++) {
       for (var longNumber=0; longNumber < longitudeBands; longNumber++) {
@@ -138,6 +156,7 @@ function Moon(parent, radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orb
 
   }
 
+  // A tick variable to increment the orbit positions
   var delta = 0;
 
   // This function updates the positions of the moon

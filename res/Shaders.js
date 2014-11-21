@@ -1,11 +1,9 @@
-var _Pmatrix;
-var _Mmatrix;
-var _Vmatrix;
-var _position;
-var _colour;
-
-// Load up fragment and vertex shaders
-// Then set up some global variables to use
+/**
+ * @fileoverview Shaders.js - Load fragment and vertex shaders, attatch and link them
+                              then set up global variables for matricies and shader parameters
+ * @author Ben Brooks (beb12@aber.ac.uk)
+ * @version 1.0
+ */
 function initShaders() {
   var fragmentShader = getShader(gl, "shader-fs");
   var vertexShader   = getShader(gl, "shader-vs");
@@ -42,7 +40,14 @@ function initShaders() {
   gl.uniform1i(_sampler, 0);
 }
 
-// Get shader script from element ID and return a compiled shader
+/**
+ * Get shader script from element ID and return a compiled shader
+ *
+ * @param gl - The WebGL Context
+ * @param id - The shader element
+ *
+ * @returns shader - A compiled WebGL shader
+ */
 function getShader(gl, id) {
 
   var script = document.getElementById(id);
@@ -77,10 +82,19 @@ function getShader(gl, id) {
 
 }
 
+// Set this so we can count how many unloaded textures there are
+// So we can display a loading screen instead of having texture popping
 var numTexturesLoading = 0;
 
-// Pass an image URL and return a WebGL texture
+/**
+ * Fetches an image from a URL and then creates a WebGL texture
+ *
+ * @param imageURL - A URL to an image used as a texture
+ *
+ * @returns image - An image object, with webglTexture
+ */
 function getTexture(imageURL) {
+  // Increment the textures loading count
   numTexturesLoading++;
   var image = new Image();
 
@@ -92,12 +106,16 @@ function getTexture(imageURL) {
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
     gl.bindTexture(gl.TEXTURE_2D, texture);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+
     // Filter magnified textures linearly, reduced textures by mipmap
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST_MIPMAP_LINEAR);
     gl.generateMipmap(gl.TEXTURE_2D);
+
     gl.bindTexture(gl.TEXTURE_2D, null);
     image.webglTexture = texture;
+
+    //Texture is loaded, so we decrement now
     numTexturesLoading--;
   };
 

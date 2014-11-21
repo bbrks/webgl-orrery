@@ -4,8 +4,18 @@
  * @version 1.0
  */
 
+/**
+ * An object class to define a ring
+ *
+ * @param parent -  Parent object of the ring
+ * @param size - Size of the ring
+ * @param textureURL - A URL to an image to be used as a texture
+ *
+ * @returns ring - The ring
+ */
 function Ring(parent, size, textureURL) {
 
+  // Set matrices
   var moveMatrix;
 
   this.parent = parent;
@@ -14,6 +24,8 @@ function Ring(parent, size, textureURL) {
 
   // This function draws the planets
   this.draw = function() {
+
+    gl.disable(gl.CULL_FACE); // Disable backface culling for Rings
 
     var mesh_verts = [
       0,0,0,    0,0,
@@ -81,7 +93,7 @@ function Ring(parent, size, textureURL) {
     gl.uniformMatrix4fv(_Mmatrix, false, moveMatrix);
     gl.uniformMatrix4fv(_Vmatrix, false, viewMatrix);
 
-    // Disable lighting for Rings
+    // Disable lighting for Rings, or else we get weird pulsating lighting when it spins
     gl.uniform1i(_useLighting, false);
 
     if (this.texture.webglTexture) {
@@ -98,6 +110,7 @@ function Ring(parent, size, textureURL) {
 
   }
 
+  // A tick variable to increment the orbit positions
   var delta = 0;
 
   // This function updates the positions of the moon

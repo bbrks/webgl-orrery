@@ -4,6 +4,14 @@
  * @version 1.0
  */
 
+/**
+ * An object class to define a skybox
+ *
+ * @param size - Size of the skybox
+ * @param textureURL - A URL to an image to be used as a texture
+ *
+ * @returns skybox - The skybox
+ */
 function Skybox(size, textureURL) {
 
   var moveMatrix;
@@ -13,6 +21,8 @@ function Skybox(size, textureURL) {
 
   // Draw a cube of dimensions 'size'
   this.draw = function() {
+
+    gl.disable(gl.CULL_FACE); // Disable backface culling on Skybox
 
     var mesh_verts = [
       -1*this.size,-1*this.size,-1*this.size,    0,0,
@@ -95,8 +105,8 @@ function Skybox(size, textureURL) {
       gl.bindTexture(gl.TEXTURE_2D, this.texture.webglTexture);
     }
 
-    gl.vertexAttribPointer(_position, 3, gl.FLOAT, false,4*(3+2),0);
-    gl.vertexAttribPointer(_uv, 2, gl.FLOAT, false,4*(3+2),3*4);
+    gl.vertexAttribPointer(_position, 3, gl.FLOAT, false, 4*(3+2),0);
+    gl.vertexAttribPointer(_uv, 2, gl.FLOAT, false, 4*(3+2),3*4);
 
     gl.bindBuffer(gl.ARRAY_BUFFER, MESH_VERTEX);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, MESH_FACES);

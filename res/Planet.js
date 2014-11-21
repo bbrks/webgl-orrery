@@ -4,6 +4,21 @@
  * @version 1.0
  */
 
+/**
+ * An object class to define a planet
+ *
+ * @param radius - Radius of the planet
+ * @param spinSpeed - Speed of spin
+ * @param axialTilt - Axial tilt in degrees
+ * @param orbitRadius - Radius of the orbit
+ * @param orbitSpeed - Speed of the orbit
+ * @param orbitInclination - Inclination of the orbit
+ * @param orbitOffset - Starting position of the orbit
+ * @param textureURL - A URL to an image to be used as a texture
+ * @param bool flipNormals - Should we flip the normals?
+ *
+ * @returns planet - The planet
+ */
 function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitInclination, orbitOffset, textureURL, flipNormals) {
 
   // Set matrices
@@ -11,14 +26,16 @@ function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitIncl
   var normalMatrix;
 
   // Set object variables and do a bit of maths (e.g. Degrees to Radians)
-  this.radius = radius;
-  this.spinSpeed = spinSpeed*0.1*settings['simSpeed'];
-  this.axialTilt = axialTilt*(Math.PI/180);
+  this.radius      = radius;
+  this.spinSpeed   = spinSpeed * 0.1 * settings['simSpeed'];
+  this.axialTilt   = axialTilt * (Math.PI/180);
   this.orbitRadius = orbitRadius;
-  this.orbitSpeed = orbitSpeed*0.01*settings['simSpeed'];
-  this.orbitInclination = orbitInclination*(Math.PI/180);
-  this.texture = getTexture(textureURL);
-  this.orbitOffset = orbitOffset*Math.PI;
+  this.orbitSpeed  = orbitSpeed * 0.01 * settings['simSpeed'];
+  this.texture     = getTexture(textureURL);
+  this.orbitOffset = orbitOffset * Math.PI; // 180 degrees, so planets always start in front of camera
+  this.orbitInclination = orbitInclination * (Math.PI/180);
+
+  // We want to flip normals on the Sun, so that having a point light inside illuminates the surface
   if (flipNormals) {
     this.flipNormals = -1;
   } else {
@@ -28,7 +45,10 @@ function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitIncl
   // This is called in the Scene's draw loop
   this.draw = function() {
 
-    // Define bands of sphere and radius
+    // Enable backface culling (Disabled on certain elements, e.g. Skybox and Planetary rings)
+    gl.enable(gl.CULL_FACE);
+
+    // Define number of bands of sphere and the radius
     var latitudeBands = 28;
     var longitudeBands = 28;
     var radius = this.radius;
@@ -61,12 +81,14 @@ function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitIncl
 
         textureCoordData.push(u);
         textureCoordData.push(v);
+
         vertexPositionData.push(radius * x);
         vertexPositionData.push(radius * y);
         vertexPositionData.push(radius * z);
       }
     }
 
+    // Do seperate loops for indexes
     var indexData = [];
     for (var latNumber=0; latNumber < latitudeBands; latNumber++) {
       for (var longNumber=0; longNumber < longitudeBands; longNumber++) {
@@ -135,6 +157,7 @@ function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitIncl
     mat3.transpose(normalMatrix, normalMatrix);
     gl.uniformMatrix3fv(_Nmatrix, false, normalMatrix);
 
+    // If we are flipping the normals, then disable specular reflection to avoid weird things
     if (flipNormals) {
       gl.uniform1i(_useSpecular, false);
     } else {
@@ -147,6 +170,7 @@ function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitIncl
 
   }
 
+  // A tick variable to increment the orbit positions
   var delta = 0;
 
   // This function updates the positions of the planet
