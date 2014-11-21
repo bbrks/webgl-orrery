@@ -4,7 +4,7 @@
  * @version 1.0
  */
 
-function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitInclination, orbitOffset, textureURL) {
+function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitInclination, orbitOffset, textureURL, flipNormals) {
 
   // Set matrices
   var moveMatrix;
@@ -19,6 +19,11 @@ function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitIncl
   this.orbitInclination = orbitInclination*(Math.PI/180);
   this.texture = getTexture(textureURL);
   this.orbitOffset = orbitOffset*Math.PI*2;
+  if (flipNormals) {
+    this.flipNormals = -1;
+  } else {
+    this.flipNormals = 1;
+  }
 
   // This is called in the Scene's draw loop
   this.draw = function() {
@@ -50,9 +55,9 @@ function Planet(radius, spinSpeed, axialTilt, orbitRadius, orbitSpeed, orbitIncl
         var u = 1 - (longNumber / longitudeBands);
         var v = 1 - (latNumber / latitudeBands);
 
-        normalData.push(x);
-        normalData.push(y);
-        normalData.push(z);
+        normalData.push(x*this.flipNormals);
+        normalData.push(y*this.flipNormals);
+        normalData.push(z*this.flipNormals);
 
         textureCoordData.push(u);
         textureCoordData.push(v);

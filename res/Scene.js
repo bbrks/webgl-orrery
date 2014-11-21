@@ -31,8 +31,8 @@ function initScene() {
   // Create a huge box textured with a starfield
   objects.push(new Skybox(10000, 'textures/starfield.png'));
 
-  // Radius (0-1), Spin speed, Axial Tilt (deg), Orbit radius, Orbit speed, Orbit inclination (deg), Orbit Offset, Texture path
-  objects.push(new Planet(1,    25.050,   0.00,  0,   0.000, 0.00, Math.random(), 'textures/sunmap.png'));
+  // Radius (0-1), Spin speed, Axial Tilt (deg), Orbit radius, Orbit speed, Orbit inclination (deg), Orbit Offset, Texture path, flip normals
+  objects.push(new Planet(1,    25.050,   0.00,  0,   0.000, 0.00, Math.random(), 'textures/sunmap.png', true));
   objects.push(new Planet(0.1,  58.640,   0.00,  2,  47.873, 7.00, Math.random(), 'textures/mercurymap.jpg'));
   objects.push(new Planet(0.2, 243.018, 177.30,  4,  35.021, 3.39, Math.random(), 'textures/venusmap.jpg'));
   objects.push(new Planet(0.4, 100.997,  23.44,  6,  29.786, 0.00, Math.random(), 'textures/earthmap2k.jpg'));
