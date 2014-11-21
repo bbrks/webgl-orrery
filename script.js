@@ -39,6 +39,62 @@ function init() {
     setSimSpeed(parseInt(simSpeedSlider.value));
   });
 
+  ambientRSlider = document.getElementById('ambientR');
+  ambientGSlider = document.getElementById('ambientG');
+  ambientBSlider = document.getElementById('ambientB');
+  ambientRSlider.addEventListener("input", updateAmbient);
+  ambientGSlider.addEventListener("input", updateAmbient);
+  ambientBSlider.addEventListener("input", updateAmbient);
+
+  function updateAmbient() {
+    var rVal = document.getElementById('ambientRVal');
+    var gVal = document.getElementById('ambientGVal');
+    var bVal = document.getElementById('ambientBVal');
+    rVal.innerText = ambientRSlider.value;
+    gVal.innerText = ambientGSlider.value;
+    bVal.innerText = ambientBSlider.value;
+    setAmbient(ambientRSlider.value, ambientGSlider.value, ambientBSlider.value);
+  }
+
+  pointRSlider = document.getElementById('pointR');
+  pointGSlider = document.getElementById('pointG');
+  pointBSlider = document.getElementById('pointB');
+  pointRSlider.addEventListener("input", updatePointColor);
+  pointGSlider.addEventListener("input", updatePointColor);
+  pointBSlider.addEventListener("input", updatePointColor);
+
+  function updatePointColor() {
+    var rVal = document.getElementById('pointRVal');
+    var gVal = document.getElementById('pointGVal');
+    var bVal = document.getElementById('pointBVal');
+    rVal.innerText = pointRSlider.value;
+    gVal.innerText = pointGSlider.value;
+    bVal.innerText = pointBSlider.value;
+    setPointColor(pointRSlider.value, pointGSlider.value, pointBSlider.value);
+  }
+
+  pointXSlider = document.getElementById('pointX');
+  pointYSlider = document.getElementById('pointY');
+  pointZSlider = document.getElementById('pointZ');
+  pointXSlider.addEventListener("input", updatePointPos);
+  pointYSlider.addEventListener("input", updatePointPos);
+  pointZSlider.addEventListener("input", updatePointPos);
+
+  function updatePointPos() {
+    var xVal = document.getElementById('pointXVal');
+    var yVal = document.getElementById('pointYVal');
+    var zVal = document.getElementById('pointZVal');
+    xVal.innerText = pointXSlider.value;
+    yVal.innerText = pointYSlider.value;
+    zVal.innerText = pointZSlider.value;
+    setPointPos(pointXSlider.value, pointYSlider.value, pointZSlider.value);
+  }
+
+  var useLighting = document.getElementById('useLighting');
+  useLighting.addEventListener("change", function() {
+    enableLighting(useLighting.checked);
+  });
+
 }
 
 window.onload = init;

@@ -65,6 +65,10 @@ function initScene() {
   // Initialise the shaders and texture functions
   initShaders();
 
+  setAmbient(0.2, 0.2, 0.2);
+  setPointColor(1.0, 0.8, 0.4);
+  setPointPos(0, 0, 0);
+
   // Start the update and draw loops
   update();
   draw();
@@ -121,4 +125,35 @@ function setFoV(fovDegrees) {
   settings['fov'] = fovRadians;
   projMatrix = mat4.create();
   mat4.perspective(projMatrix, settings['fov'], canvas.width/canvas.height, 0.01, 100000);
+}
+
+function setAmbient(r,g,b) {
+  gl.uniform3f(
+  _ambient,
+    parseFloat(r),
+    parseFloat(g),
+    parseFloat(b)
+  );
+}
+
+function setPointColor(r,g,b) {
+  gl.uniform3f(
+  _pointColor,
+    parseFloat(r),
+    parseFloat(g),
+    parseFloat(b)
+  );
+}
+
+function setPointPos(x,y,z) {
+  gl.uniform3f(
+    _pointPos,
+    parseFloat(x),
+    parseFloat(y),
+    parseFloat(z)
+  );
+}
+
+function enableLighting(bool) {
+  gl.uniform1i(_useLighting, bool);
 }

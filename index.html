@@ -24,13 +24,27 @@
     uniform sampler2D uSampler;
     uniform bool uUseLighting;
 
+    uniform vec3 uAmbientColor;
+    uniform vec3 uPointLightPosition;
+    uniform vec3 uPointLightColor;
+
     varying vec4 vPosition;
     varying vec3 vNormal;
     varying vec2 vUV;
 
     void main(void) {
-      vec4 color = texture2D(uSampler, vUV);
-      gl_FragColor = vec4(color.rgb, color.a);
+
+      vec3 lightWeighting;
+      if (uUseLighting) {
+        vec3 lightDirection = normalize(uPointLightPosition - vPosition.xyz);
+        float directionalLightWeighting = max(dot(normalize(vNormal), lightDirection), 0.0);
+        lightWeighting = uAmbientColor + uPointLightColor * directionalLightWeighting;
+      } else {
+        lightWeighting = vec3(1.0, 1.0, 1.0);
+      }
+
+      vec4 texture = texture2D(uSampler, vUV);
+      gl_FragColor = vec4(texture.rgb * lightWeighting, texture.a);
     }
   </script>
   <script id="shader-vs" type="x-shader/x-vertex">
@@ -82,6 +96,52 @@
         <input id="simSpeedSlider" type="range" min="0" max="1000" value="100" step="10" />
       </label>
     </li>
+    <hr />
+    <li>
+      <label>Lighting: <input id="useLighting" type="checkbox" value="true" checked="checked" /></label>
+    </li>
+    <hr />
+    <li>
+      Ambient Lighting:<br />
+      <label>R: <span id="ambientRVal">0.2</span>
+        <input id="ambientR" type="range" min="0" max="1" value="0.2" step="0.1" />
+      </label><br />
+      <label>G: <span id="ambientGVal">0.2</span>
+        <input id="ambientG" type="range" min="0" max="1" value="0.2" step="0.1" />
+      </label><br />
+      <label>B: <span id="ambientBVal">0.2</span>
+        <input id="ambientB" type="range" min="0" max="1" value="0.2" step="0.1" />
+      </label>
+    </li>
+    <hr />
+    Point Lighting:<br />
+    <div style="float:left">
+      <li>
+        <label>R: <span id="pointRVal">1.0</span>
+          <input id="pointR" type="range" min="0" max="1" value="1.0" step="0.1" />
+        </label><br />
+        <label>G: <span id="pointGVal">1.0</span>
+          <input id="pointG" type="range" min="0" max="1" value="1.0" step="0.1" />
+        </label><br />
+        <label>B: <span id="pointBVal">1.0</span>
+          <input id="pointB" type="range" min="0" max="1" value="1.0" step="0.1" />
+        </label>
+      </li>
+    </div>
+    <div style="float:left">
+      <li>
+        <label>X: <span id="pointXVal">0</span>
+          <input id="pointX" type="range" min="-10" max="10" value="0" step="0.1" />
+        </label><br />
+        <label>Y: <span id="pointYVal">0</span>
+          <input id="pointY" type="range" min="-10" max="10" value="0" step="0.1" />
+        </label><br />
+        <label>Z: <span id="pointZVal">0</span>
+          <input id="pointZ" type="range" min="-10" max="10" value="0" step="0.1" />
+        </label>
+      </li>
+    </div>
+    <div style="clear:both"></div>
   </ul>
 
 </body>
