@@ -18,3 +18,7 @@ Built using WebGL and Javascript, with just one library, glMatrix.
 ![Close up of Saturn](images/saturncloseup.png)
 
 ![Different lighting settings](images/lighting.png)
+
+## License
+
+This project is released under the [MIT License](LICENSE)
